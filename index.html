@@ -97,6 +97,7 @@
     font-size: 1rem;
     color: var(--gold);
     letter-spacing: 4px;
+    opacity: 0.5;
     margin-bottom: 1rem;
     animation: fade-slide-up 1.2s ease forwards 0.3s;
     opacity: 0;
@@ -177,7 +178,7 @@
     50% { opacity: 1; transform: scale(1.05); }
   }
 
-  /* calendar */
+  /* Spider calendar */
   .calendar-wrap {
     margin-top: 1.4rem;
     position: relative;
@@ -256,8 +257,17 @@
     opacity: 0;
     text-shadow: 0 1px 8px rgba(0,0,0,0.5);
   }
-  .s3-text em { color: var(--rose-light); font-style: normal; font-weight: 400; }
-  .s3-text strong { color: var(--gold-light); font-style: normal; font-weight: 400; }
+  .s3-text em {
+    color: var(--rose-light);
+    font-style: normal;
+    font-weight: 400;
+  }
+  .s3-text strong {
+    color: var(--gold-light);
+    font-style: normal;
+    font-weight: 400;
+  }
+  /* highlight key phrases */
 
   /* ───── ARROWS ───── */
   .arrow-btn {
@@ -274,8 +284,25 @@
     flex-shrink: 0;
     position: relative;
   }
+  .arrow-btn::before {
+    content: '';
+    position: absolute; inset: -1px;
+    border-radius: 50%;
+    background: conic-gradient(var(--gold) 0%, transparent 30%, transparent 70%, var(--rose) 100%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: -1;
+  }
   .arrow-btn:active { transform: scale(0.92); }
   .arrow-btn svg { width: 20px; height: 20px; }
+  .arrow-down-btn { animation-delay: 1.3s; }
+  .arrow-down-btn svg { transform: rotate(90deg); }
+
+  /* s1 arrow */
+  #screen1 .arrow-btn { animation-delay: 1.5s; }
+  #screen1 .arrow-btn svg path { stroke: var(--gold-light); }
+  #screen2 .arrow-btn svg path { stroke: var(--gold-light); }
+  #screen3 .arrow-btn svg path { stroke: var(--gold-light); }
 
   /* ───── GLOBAL ANIMATIONS ───── */
   @keyframes fade-slide-up {
@@ -287,13 +314,20 @@
     to   { opacity: 1; }
   }
 
-  /* ───── SCREEN 4 — base style (HP style) ───── */
-  .hp-screen {
+  /* ───── SCREEN 4 — HARRY POTTER ───── */
+  #screen4 {
+    background: radial-gradient(ellipse at 50% 45%, #0d1220 0%, #06080f 75%);
     gap: 0;
     justify-content: center;
     padding: 2rem 1.5rem 2.5rem;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+  }
+  #screen4::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 250px 180px at 20% 20%, rgba(120,80,200,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 200px 200px at 80% 80%, rgba(200,100,122,0.07) 0%, transparent 70%);
+    pointer-events: none;
   }
   .hp-frame {
     position: relative;
@@ -317,7 +351,7 @@
     font-size: 0.5rem;
     letter-spacing: 6px;
     color: rgba(180,140,255,0.5);
-    background: inherit;
+    background: #06080f;
     padding: 0 6px;
   }
   .hp-stars::after {
@@ -328,7 +362,7 @@
     font-size: 0.5rem;
     letter-spacing: 6px;
     color: rgba(180,140,255,0.5);
-    background: inherit;
+    background: #06080f;
     padding: 0 6px;
   }
   .hp-img-wrap {
@@ -357,15 +391,7 @@
     pointer-events: none;
     z-index: -1;
   }
-  .hp-tap-hint {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    text-align: center; padding: 1.2rem 0 0.5rem;
-    background: linear-gradient(transparent, rgba(0,0,0,0.7));
-    color: rgba(255,255,255,0.4);
-    font-family: 'Raleway', sans-serif;
-    font-size: 0.52rem; letter-spacing: 2px;
-    text-transform: uppercase; pointer-events: none;
-  }
+
   .hp-quote-wrap {
     margin-top: 1.4rem;
     position: relative;
@@ -381,29 +407,17 @@
     color: rgba(180,140,255,0.35);
     margin-bottom: 0.3rem;
   }
-  /* frase pessoal (estilo tela 4) */
-  .hp-personal {
+  .hp-quote-text {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(0.9rem, 3.6vw, 1.1rem);
+    font-size: clamp(0.95rem, 3.8vw, 1.15rem);
     color: var(--cream);
-    line-height: 1.65;
+    line-height: 1.75;
     font-weight: 300;
-    margin-bottom: 0.8rem;
   }
-  .hp-personal em { font-style: italic; color: var(--rose-light); }
-  /* citação (estilo tela 5) */
-  .hp-citation {
-    font-family: 'Cormorant Garamond', serif;
+  .hp-quote-text em {
     font-style: italic;
-    font-size: clamp(0.9rem, 3.5vw, 1.1rem);
-    color: var(--cream);
-    line-height: 1.8;
-    padding: 0.7rem 1rem;
-    border-left: 2px solid var(--rose);
-    text-align: left;
-    border-radius: 0 4px 4px 0;
-    background: rgba(255,255,255,0.03);
-    opacity: 0.9;
+    color: #c8b4f8;
+    font-size: 1.05em;
   }
   .hp-author {
     margin-top: 1rem;
@@ -418,16 +432,15 @@
     flex: 1;
     max-width: 50px;
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--rose), transparent);
+    background: linear-gradient(90deg, transparent, rgba(180,140,255,0.4), transparent);
   }
   .hp-author span {
     font-family: 'Raleway', sans-serif;
     font-size: 0.6rem;
     letter-spacing: 2px;
-    color: var(--rose-light);
+    color: rgba(180,140,255,0.6);
     text-transform: uppercase;
     white-space: nowrap;
-    opacity: 0.75;
   }
 
   /* ───── HEARTS ───── */
@@ -452,109 +465,120 @@
     pointer-events: none; z-index: 5;
   }
 
-  /* per-screen backgrounds */
-  #screen4  { background: radial-gradient(ellipse at 50% 45%, #0d1220 0%, #06080f 75%); }
-  #screen5  { background: radial-gradient(ellipse at 50% 45%, #1a1020 0%, #08060f 75%); }
-  #screen6  { background: radial-gradient(ellipse at 50% 45%, #150d1e 0%, #080510 75%); }
-  #screen7  { background: radial-gradient(ellipse at 50% 45%, #0d1a16 0%, #060f0a 75%); }
-  #screen8  { background: radial-gradient(ellipse at 50% 45%, #1a1008 0%, #0f0802 75%); }
-  #screen9  { background: radial-gradient(ellipse at 50% 45%, #0a1520 0%, #050c15 75%); }
-  #screen10 { background: radial-gradient(ellipse at 50% 45%, #1a0d0d 0%, #0f0808 75%); }
-  #screen11 { background: radial-gradient(ellipse at 50% 45%, #0d1a0d 0%, #060f06 75%); }
-  #screen12 { background: radial-gradient(ellipse at 50% 45%, #0d1520 0%, #060a14 75%); }
-  #screen13 { background: radial-gradient(ellipse at 50% 45%, #1a1508 0%, #0f0c05 75%); }
-  #screen14 { background: radial-gradient(ellipse at 50% 45%, #150a1a 0%, #0a0610 75%); }
-
-  /* accent per screen for stars border and glow tint */
-  #screen4  .hp-stars { border-color: rgba(180,140,255,0.18); }
-  #screen5  .hp-stars { border-color: rgba(230,115,106,0.18); }
-  #screen6  .hp-stars { border-color: rgba(155,110,200,0.18); }
-  #screen7  .hp-stars { border-color: rgba(90,171,133,0.18); }
-  #screen8  .hp-stars { border-color: rgba(212,135,74,0.18); }
-  #screen9  .hp-stars { border-color: rgba(74,142,200,0.18); }
-  #screen10 .hp-stars { border-color: rgba(200,74,74,0.18); }
-  #screen11 .hp-stars { border-color: rgba(106,184,101,0.18); }
-  #screen12 .hp-stars { border-color: rgba(96,170,238,0.18); }
-  #screen13 .hp-stars { border-color: rgba(220,185,80,0.18); }
-  #screen14 .hp-stars { border-color: rgba(176,96,200,0.18); }
-
-  /* stars pseudo bg color fix per screen */
-  #screen4  .hp-stars::before, #screen4  .hp-stars::after { background: #06080f; color: rgba(180,140,255,0.5); }
-  #screen5  .hp-stars::before, #screen5  .hp-stars::after { background: #08060f; color: rgba(230,115,106,0.5); }
-  #screen6  .hp-stars::before, #screen6  .hp-stars::after { background: #080510; color: rgba(155,110,200,0.5); }
-  #screen7  .hp-stars::before, #screen7  .hp-stars::after { background: #060f0a; color: rgba(90,171,133,0.5); }
-  #screen8  .hp-stars::before, #screen8  .hp-stars::after { background: #0f0802; color: rgba(212,135,74,0.5); }
-  #screen9  .hp-stars::before, #screen9  .hp-stars::after { background: #050c15; color: rgba(74,142,200,0.5); }
-  #screen10 .hp-stars::before, #screen10 .hp-stars::after { background: #0f0808; color: rgba(200,74,74,0.5); }
-  #screen11 .hp-stars::before, #screen11 .hp-stars::after { background: #060f06; color: rgba(106,184,101,0.5); }
-  #screen12 .hp-stars::before, #screen12 .hp-stars::after { background: #060a14; color: rgba(96,170,238,0.5); }
-  #screen13 .hp-stars::before, #screen13 .hp-stars::after { background: #0f0c05; color: rgba(220,185,80,0.5); }
-  #screen14 .hp-stars::before, #screen14 .hp-stars::after { background: #0a0610; color: rgba(176,96,200,0.5); }
-
-  /* ───── SCREEN 15 — FINAL ───── */
-  #screen15 {
-    background: radial-gradient(ellipse at 50% 60%, #1e0a12 0%, #0a0608 70%);
-    gap: 0;
-    padding: 2rem 1.5rem 2.5rem;
+  /* ───── FAN SCREENS (5–11) ───── */
+  .fan-screen {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    padding: 2.5rem 1.8rem 3rem;
+    gap: 0;
   }
-  #screen15::before {
-    content: '';
-    position: absolute; inset: 0;
-    background:
-      radial-gradient(ellipse 200px 200px at 20% 30%, rgba(200,100,122,0.1) 0%, transparent 70%),
-      radial-gradient(ellipse 300px 300px at 80% 70%, rgba(212,168,83,0.07) 0%, transparent 70%);
+  .fan-img-wrap {
+    position: relative;
+    width: min(260px, 70vw);
+    flex-shrink: 0;
+    cursor: pointer;
+    animation: fade-slide-up 1s ease forwards 0.3s;
+    opacity: 0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .fan-img-wrap::after {
+    content: '▶ toque para continuar';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    color: rgba(255,255,255,0.5);
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.55rem;
+    letter-spacing: 2px;
+    text-align: center;
+    padding: 1.5rem 0 0.5rem;
+    text-transform: uppercase;
     pointer-events: none;
   }
-  .final-title {
-    font-family: 'Great Vibes', cursive;
-    font-size: clamp(2.2rem, 8vw, 3.5rem);
+  .fan-img-wrap img {
+    width: 100%;
+    display: block;
+    max-height: 44vh;
+    object-fit: cover;
+    transition: transform 0.4s ease, filter 0.4s ease;
+  }
+  .fan-img-wrap:active img { transform: scale(0.97); filter: brightness(1.1); }
+  .fan-border {
+    position: absolute; inset: 0;
+    border-radius: 8px;
+    pointer-events: none;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .fan-quote-wrap {
+    margin-top: 1.3rem;
+    text-align: center;
+    max-width: 360px;
+    width: 100%;
+    animation: fade-slide-up 1s ease forwards 0.6s;
+    opacity: 0;
+  }
+  .fan-tagline {
+    font-family: 'Raleway', sans-serif;
+    font-size: clamp(0.75rem, 3vw, 0.9rem);
+    font-weight: 300;
+    letter-spacing: 0.5px;
     color: var(--cream);
-    text-shadow: 0 0 40px rgba(200,100,122,0.5), 0 2px 8px rgba(0,0,0,0.8);
-    animation: fade-slide-up 1.2s ease forwards 0.3s;
-    opacity: 0;
-    line-height: 1.25;
-    margin-bottom: 0.5rem;
+    opacity: 0.85;
+    margin-bottom: 0.9rem;
+    line-height: 1.5;
   }
-  .final-title span { color: var(--rose-light); }
-  .final-divider {
-    width: 80px; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    margin: 1rem auto;
-    animation: fade-slide-up 1.2s ease forwards 0.6s;
-    opacity: 0;
-  }
-  .final-body {
+  .fan-quote {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
-    font-size: clamp(1rem, 4vw, 1.25rem);
+    font-size: clamp(0.95rem, 3.8vw, 1.15rem);
     color: var(--cream);
-    line-height: 1.85;
-    max-width: 360px;
-    text-align: center;
-    animation: fade-slide-up 1.2s ease forwards 0.9s;
-    opacity: 0;
-    text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+    line-height: 1.8;
+    padding: 0.8rem 1rem;
+    border-left: 2px solid currentColor;
+    text-align: left;
+    border-radius: 0 4px 4px 0;
+    background: rgba(255,255,255,0.03);
   }
-  .final-body em { color: var(--rose-light); font-style: normal; }
-  .final-body strong { color: var(--gold-light); font-style: normal; font-weight: 400; }
-  .final-sig {
-    margin-top: 1.6rem;
-    font-family: 'Great Vibes', cursive;
-    font-size: clamp(1.6rem, 6vw, 2.2rem);
-    color: var(--gold-light);
-    text-shadow: 0 0 20px rgba(212,168,83,0.4);
-    animation: fade-slide-up 1.2s ease forwards 1.3s;
+  .fan-author {
+    margin-top: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    animation: fade-slide-up 1s ease forwards 0.9s;
     opacity: 0;
   }
-  .final-hearts {
-    font-size: 1.3rem;
-    margin-top: 0.5rem;
-    animation: fade-slide-up 1.2s ease forwards 1.6s;
-    opacity: 0;
-    letter-spacing: 4px;
+  .fan-author-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, currentColor, transparent);
+    opacity: 0.3;
   }
+  .fan-author span {
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.58rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.6;
+    white-space: nowrap;
+  }
+
+  /* per-screen accent colors */
+  #screen5  { background: radial-gradient(ellipse at 50% 45%, #1a1020 0%, #08060f 75%); --accent: #e8736a; --accent2: #f0a090; }
+  #screen6  { background: radial-gradient(ellipse at 50% 45%, #150d1e 0%, #080510 75%); --accent: #9b6ec8; --accent2: #c4a0e8; }
+  #screen7  { background: radial-gradient(ellipse at 50% 45%, #0d1a16 0%, #060f0a 75%); --accent: #5aab85; --accent2: #90ddb8; }
+  #screen8  { background: radial-gradient(ellipse at 50% 45%, #1a1008 0%, #0f0802 75%); --accent: #d4874a; --accent2: #f0b07a; }
+  #screen9  { background: radial-gradient(ellipse at 50% 45%, #0a1520 0%, #050c15 75%); --accent: #4a8ec8; --accent2: #80bae8; }
+  #screen10 { background: radial-gradient(ellipse at 50% 45%, #1a0d0d 0%, #0f0808 75%); --accent: #c84a4a; --accent2: #e88080; }
+  #screen11 { background: radial-gradient(ellipse at 50% 45%, #0d1a0d 0%, #060f06 75%); --accent: #6ab865; --accent2: #a0e09a; }
+
+  #screen12 { background: radial-gradient(ellipse at 50% 45%, #0d1520 0%, #060a14 75%); --accent: #60aaee; --accent2: #a0ccf8; }
+  #screen13 { background: radial-gradient(ellipse at 50% 45%, #1a1508 0%, #0f0c05 75%); --accent: #c8aa40; --accent2: #e8d080; }
+  #screen14 { background: radial-gradient(ellipse at 50% 45%, #150a1a 0%, #0a0610 75%); --accent: #b060c8; --accent2: #d898e8; }
+
+  .fan-screen .fan-quote { color: var(--accent2); border-color: var(--accent); }
+  .fan-screen .fan-author { color: var(--accent2); }
+  .fan-screen .fan-author-line { background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: 0.5; }
 </style>
 </head>
 <body>
@@ -573,7 +597,7 @@
   </button>
 </div>
 
-<!-- SCREEN 2 — FOTO + CALENDÁRIO (sem alteração de layout) -->
+<!-- SCREEN 2 -->
 <div class="screen" id="screen2">
   <div class="photo-frame">
     <div class="photo-glow"></div>
@@ -602,527 +626,560 @@
   </button>
 </div>
 
-<!-- SCREEN 4 — Harry Potter -->
-<div class="screen hp-screen" id="screen4">
+<!-- SCREEN 4 -->
+<div class="screen" id="screen4">
   <div class="hp-frame">
     <div class="hp-stars"></div>
-    <div class="hp-img-wrap" onclick="goTo(5)" style="cursor:pointer;">
+    <div class="hp-img-wrap" onclick="goTo(5)" style="cursor:pointer;" title="Toque para continuar">
       <div class="hp-img-glow"></div>
       <img src="https://i.ibb.co/MFY72H7/image.webp" alt="Harry Potter" class="hp-img">
       <div class="hp-img-overlay"></div>
-      <div class="hp-tap-hint">▶ toque para continuar</div>
+      <div style="position:absolute;bottom:0;left:0;right:0;text-align:center;padding:1.2rem 0 0.5rem;background:linear-gradient(transparent,rgba(0,0,0,0.7));color:rgba(255,255,255,0.4);font-family:'Raleway',sans-serif;font-size:0.52rem;letter-spacing:2px;text-transform:uppercase;pointer-events:none;">▶ toque para continuar</div>
     </div>
   </div>
   <div class="hp-quote-wrap">
     <div class="hp-quote-open">❝</div>
-    <p class="hp-personal">Você para mim é como Hermione é para Rony —</p>
-    <blockquote class="hp-citation">"Você é honestamente a pessoa mais maravilhosa que eu já conheci."</blockquote>
-  </div>
-  <div class="hp-author">
-    <div class="hp-author-line"></div>
-    <span>Rony Weasley sobre Hermione</span>
-    <div class="hp-author-line"></div>
+    <p class="hp-quote-text">Você para mim é como Hermione é para Rony —<br><em>"Você é honestamente a pessoa mais maravilhosa que eu já conheci."</em></p>
+    <div class="hp-author">
+      <div class="hp-author-line"></div>
+      <span>Rony Weasley sobre Hermione</span>
+      <div class="hp-author-line"></div>
+    </div>
   </div>
 </div>
 
 <!-- SCREEN 5 — Peter Parker -->
-<div class="screen hp-screen" id="screen5">
-  <div class="hp-frame">
-    <div class="hp-stars"></div>
-    <div class="hp-img-wrap" onclick="goTo(6)" style="cursor:pointer;">
-      <div class="hp-img-glow"></div>
-      <img src="https://i.ibb.co/wZ9xZSGh/8ae95140399c6cec1a1fae0daa1510bd.jpg" alt="Peter Parker e Mary Jane" class="hp-img">
-      <div class="hp-img-overlay"></div>
-      <div class="hp-tap-hint">▶ toque para continuar</div>
-    </div>
+<div class="screen fan-screen" id="screen5">
+  <div class="fan-img-wrap" onclick="goTo(6)">
+    <img src="https://i.ibb.co/wZ9xZSGh/8ae95140399c6cec1a1fae0daa1510bd.jpg" alt="Peter Parker e Mary Jane">
+    <div class="fan-border"></div>
   </div>
-  <div class="hp-quote-wrap">
-    <div class="hp-quote-open">❝</div>
-    <p class="hp-personal">Quando olho nos seus olhos me sinto como Peter Parker —</p>
-    <blockquote class="hp-citation">"Quando você olha nos olhos dela, e ela olha pra você, tudo parece fora do normal. Porque você se sente mais forte, e mais fraco ao mesmo tempo."</blockquote>
+  <div class="fan-quote-wrap">
+    <p class="fan-tagline">Quando olho nos seus olhos me sinto como Peter Parker</p>
+    <blockquote class="fan-quote">"Quando você olha nos olhos dela, e ela olha pra você, tudo parece fora do normal. Porque você se sente mais forte, e mais fraco ao mesmo tempo."</blockquote>
   </div>
-  <div class="hp-author">
-    <div class="hp-author-line"></div>
+  <div class="fan-author">
+    <div class="fan-author-line"></div>
     <span>Peter para Mary Jane</span>
-    <div class="hp-author-line"></div>
+    <div class="fan-author-line"></div>
   </div>
 </div>
 
 <!-- SCREEN 6 — Damon e Elena -->
-<div class="screen hp-screen" id="screen6">
-  <div class="hp-frame">
-    <div class="hp-stars"></div>
-    <div class="hp-img-wrap" onclick="goTo(7)" style="cursor:pointer;">
-      <div class="hp-img-glow"></div>
-      <img src="https://i.ibb.co/prffPm0y/0090.webp" alt="Damon e Elena" class="hp-img">
-      <div class="hp-img-overlay"></div>
-      <div class="hp-tap-hint">▶ toque para continuar</div>
-    </div>
+<div class="screen fan-screen" id="screen6">
+  <div class="fan-img-wrap" onclick="goTo(7)">
+    <img src="https://i.ibb.co/prffPm0y/0090.webp" alt="Damon e Elena">
+    <div class="fan-border"></div>
   </div>
-  <div class="hp-quote-wrap">
-    <div class="hp-quote-open">❝</div>
-    <p class="hp-personal">Para mim, você é como Damon é para Elena —</p>
-    <blockquote class="hp-citation">"Quero agradecer por me dar tudo o que eu sempre quis. Um amor que me consumiu, paixão, aventura... Não há mais nada que eu pudesse pedir, exceto que durasse para sempre."</blockquote>
+  <div class="fan-quote-wrap">
+    <p class="fan-tagline">Para mim, você é como Damon é para Elena</p>
+    <blockquote class="fan-quote">"Quero agradecer por me dar tudo o que eu sempre quis. Um amor que me consumiu, paixão, aventura... Não há mais nada que eu pudesse pedir, exceto que durasse para sempre."</blockquote>
   </div>
-  <div class="hp-author">
-    <div class="hp-author-line"></div>
+  <div class="fan-author">
+    <div class="fan-author-line"></div>
     <span>Elena Gilbert para Damon Salvatore</span>
-    <div class="hp-author-line"></div>
+    <div class="fan-author-line"></div>
   </div>
 </div>
 
 <!-- SCREEN 7 — Stefan e Caroline -->
-<div class="screen hp-screen" id="screen7">
-  <div class="hp-frame">
-    <div class="hp-stars"></div>
-    <div class="hp-img-wrap" onclick="goTo(8)" style="cursor:pointer;">
-      <div class="hp-img-glow"></div>
-      <img src="https://i.ibb.co/prkVChq7/Caroline-Candice-King-e-Stefan-Paul-Wesley-em-The-Vampire-Diaries-Reproducao-jpg.webp" alt="Stefan e Caroline" class="hp-img">
-      <div class="hp-img-overlay"></div>
-      <div class="hp-tap-hint">▶ toque para continuar</div>
-    </div>
+<div class="screen fan-screen" id="screen7">
+  <div class="fan-img-wrap" onclick="goTo(8)">
+    <img src="https://i.ibb.co/prkVChq7/Caroline-Candice-King-e-Stefan-Paul-Wesley-em-The-Vampire-Diaries-Reproducao-jpg.webp" alt="Stefan e Caroline">
+    <div class="fan-border"></div>
   </div>
-  <div class="hp-quote-wrap">
-    <div class="hp-quote-open">❝</div>
-    <p class="hp-personal">Para mim você tem sido como Caroline foi para Stefan —</p>
-    <blockquote class="hp-citation">"Você tem sido minha amiga, minha consciência, minha conselheira, minha luz do sol quando tudo o que eu via era escuridão. Você me salvou do desespero."</blockquote>
+  <div class="fan-quote-wrap">
+    <p class="fan-tagline">Para mim você tem sido como Caroline foi para Stefan</p>
+    <blockquote class="fan-quote">"Você tem sido minha amiga, minha consciência, minha conselheira, minha luz do sol quando tudo o que eu via era escuridão. Você me salvou do desespero. Você me disse uma vez que eu me apaixonaria sem nem perceber, e foi exatamente o que aconteceu."</blockquote>
   </div>
-  <div class="hp-author">
-    <div class="hp-author-line"></div>
+  <div class="fan-author">
+    <div class="fan-author-line"></div>
     <span>Stefan Salvatore para Caroline Forbes</span>
-    <div class="hp-author-line"></div>
+    <div class="fan-author-line"></div>
   </div>
 </div>
 
 <!-- SCREEN 8 — Naruto e Hinata -->
-<div class="screen hp-screen" id="screen8">
-  <div class="hp-frame">
-    <div class="hp-stars"></div>
-    <div class="hp-img-wrap" onclick="goTo(9)" style="cursor:pointer;">
-      <div class="hp-img-glow"></div>
-      <img src="https://i.ibb.co/fznFyNLF/the-heartwarming-journey-of-naruto-and-hinata-360324.webp" alt="Naruto e Hinata" class="hp-img">
-      <div class="hp-img-overlay"></div>
-      <div class="hp-tap-hint">▶ toque para continuar</div>
-    </div>
+<div class="screen fan-screen" id="screen8">
+  <div class="fan-img-wrap" onclick="goTo(9)">
+    <img src="https://i.ibb.co/fznFyNLF/the-heartwarming-journey-of-naruto-and-hinata-360324.webp" alt="Naruto e Hinata">
+    <div class="fan-border"></div>
   </div>
-  <div class="hp-quote-wrap">
-    <div class="hp-quote-open">❝</div>
-    <p class="hp-personal">Para mim, você tem a mesma importância que o Naruto tem para Hinata —</p>
-    <blockquote class="hp-citation">"Eu te amo. Você me mostrou o caminho certo. O seu sorriso foi o que me salvou! É por isso que não tenho medo de morrer para te proteger."</blockquote>
+  <div class="fan-quote-wrap">
+    <p class="fan-tagline">Para mim, você tem a mesma importância que o Naruto tem para Hinata</p>
+    <blockquote class="fan-quote">"Eu costumava sempre chorar e desistir... Mas você me mostrou o caminho certo. Eu queria caminhar ao seu lado... Eu queria estar com você. Você me mudou! O seu sorriso foi o que me salvou! É por isso que não tenho medo de morrer para proteger você! Porque... eu te amo."</blockquote>
   </div>
-  <div class="hp-author">
-    <div class="hp-author-line"></div>
+  <div class="fan-author">
+    <div class="fan-author-line"></div>
     <span>Hinata para Naruto</span>
-    <div class="hp-author-line"></div>
+    <div class="fan-author-line"></div>
   </div>
 </div>
 
 <!-- SCREEN 9 — Tanjiro e Nezuko -->
-<div class="screen hp-screen" id="screen9">
-  <div class="hp-frame">
-    <div class="hp-stars"></div>
-    <div class="hp-img-wrap" onclick="goTo(10)" style="cursor:pointer;">
-      <div class="hp-img-glow"></div>
-      <img src="https://i.ibb.co/tr9HLF1/tanjiro-and-nezuko-anime.jpg" alt="Tanjiro e Nezuko" class="hp-img">
-      <div class="hp-img-overlay"></div>
-      <div class="hp-tap-hint">▶ toque para continuar</div>
-    </div>
+<div class="screen fan-screen" id="screen9">
+  <div class="fan-img-wrap" onclick="goTo(10)">
+    <img src="https://i.ibb.co/tr9HLF1/tanjiro-and-nezuko-anime.jpg" alt="Tanjiro e Nezuko">
+    <div class="fan-border"></div>
   </div>
-  <div class="hp-quote-wrap">
-    <div class="hp-quote-open">❝</div>
-    <p class="hp-personal">Para mim, o nosso vínculo é como o de Tanjiro e Nezuko —</p>
-    <blockquote class="hp-citation">"O vínculo entre mim e a Nezuko não pode ser cortado por ninguém!"</blockquote>
+  <div class="fan-quote-wrap">
+    <p class="fan-tagline">Para mim, o nosso vínculo é como o de Tanjiro e Nezuko</p>
+    <blockquote class="fan-quote">"O vínculo entre mim e a Nezuko não pode ser cortado por ninguém!"</blockquote>
   </div>
-  <div class="hp-author">
-    <div class="hp-author-line"></div>
+  <div class="fan-author">
+    <div class="fan-author-line"></div>
     <span>Tanjiro sobre Nezuko</span>
-    <div class="hp-author-line"></div>
+    <div class="fan-author-line"></div>
   </div>
 </div>
 
 <!-- SCREEN 10 — Stiles e Lydia -->
-<div class="screen hp-screen" id="screen10">
-  <div class="hp-frame">
-    <div class="hp-stars"></div>
-    <div class="hp-img-wrap" onclick="goTo(11)" style="cursor:pointer;">
-      <div class="hp-img-glow"></div>
-      <img src="https://i.ibb.co/0vwNBpx/did-lydia-ever-love-stiles-the-way-malia-did-v0-m2npe1xhp0df1.webp" alt="Stiles e Lydia" class="hp-img">
-      <div class="hp-img-overlay"></div>
-      <div class="hp-tap-hint">▶ toque para continuar</div>
-    </div>
+<div class="screen fan-screen" id="screen10">
+  <div class="fan-img-wrap" onclick="goTo(11)">
+    <img src="https://i.ibb.co/0vwNBpx/did-lydia-ever-love-stiles-the-way-malia-did-v0-m2npe1xhp0df1.webp" alt="Stiles e Lydia">
+    <div class="fan-border"></div>
   </div>
-  <div class="hp-quote-wrap">
-    <div class="hp-quote-open">❝</div>
-    <p class="hp-personal">Eu te amo desde a primeira vez em que te vi, e eu te amo como o Stiles amou a Lydia —</p>
-    <blockquote class="hp-citation">"Eu te amo. Eu te amo desde a terceira série. Desde o primeiro momento em que te vi, e não vou parar de te amar."</blockquote>
+  <div class="fan-quote-wrap">
+    <p class="fan-tagline">Eu te amo desde a primeira vez em que te vi, e eu te amo como o Stiles amou a Lydia</p>
+    <blockquote class="fan-quote">"Eu te amo. Eu te amo desde a terceira série. Desde o primeiro momento em que te vi, e não vou parar de te amar."</blockquote>
   </div>
-  <div class="hp-author">
-    <div class="hp-author-line"></div>
+  <div class="fan-author">
+    <div class="fan-author-line"></div>
     <span>Stiles para Lydia</span>
-    <div class="hp-author-line"></div>
+    <div class="fan-author-line"></div>
   </div>
 </div>
 
 <!-- SCREEN 11 — Pernalonga e Lola -->
-<div class="screen hp-screen" id="screen11">
-  <div class="hp-frame">
-    <div class="hp-stars"></div>
-    <div class="hp-img-wrap" onclick="goTo(12)" style="cursor:pointer;">
-      <div class="hp-img-glow"></div>
-      <img src="https://i.ibb.co/WpPK2mpp/78027cffbd0083243f8ec0e0b4f8c4a5.jpg" alt="Pernalonga e Lola Bunny" class="hp-img">
-      <div class="hp-img-overlay"></div>
-      <div class="hp-tap-hint">▶ toque para continuar</div>
-    </div>
+<div class="screen fan-screen" id="screen11">
+  <div class="fan-img-wrap" onclick="goTo(12)">
+    <img src="https://i.ibb.co/WpPK2mpp/78027cffbd0083243f8ec0e0b4f8c4a5.jpg" alt="Pernalonga e Lola Bunny">
+    <div class="fan-border"></div>
   </div>
-  <div class="hp-quote-wrap">
-    <div class="hp-quote-open">❝</div>
-    <p class="hp-personal">Eu pensei que era inteligente, mas quando te vi no dia do chaverio me senti como Pernalonga —</p>
-    <blockquote class="hp-citation">"Eu achei que a coisa mais inteligente que eu já tinha feito era dobrar à esquerda em Albuquerque... até o dia em que eu te conheci."</blockquote>
+  <div class="fan-quote-wrap">
+    <p class="fan-tagline">Eu pensei que era inteligente, mas quando te vi no dia do chaverio me senti como Pernalonga</p>
+    <blockquote class="fan-quote">"Eu achei que a coisa mais inteligente que eu já tinha feito era dobrar à esquerda em Albuquerque... até o dia em que eu te conheci."</blockquote>
   </div>
-  <div class="hp-author">
-    <div class="hp-author-line"></div>
+  <div class="fan-author">
+    <div class="fan-author-line"></div>
     <span>Pernalonga para Lola Bunny</span>
-    <div class="hp-author-line"></div>
+    <div class="fan-author-line"></div>
   </div>
 </div>
 
 <!-- SCREEN 12 — Gumball e Penny -->
-<div class="screen hp-screen" id="screen12">
-  <div class="hp-frame">
-    <div class="hp-stars"></div>
-    <div class="hp-img-wrap" onclick="goTo(13)" style="cursor:pointer;">
-      <div class="hp-img-glow"></div>
-      <img src="https://i.ibb.co/35BPswN5/944ab881c0fa632815b761261382e8e8bc35a601f20c41e7a979a79765a9cdbd.png" alt="Gumball e Penny" class="hp-img">
-      <div class="hp-img-overlay"></div>
-      <div class="hp-tap-hint">▶ toque para continuar</div>
-    </div>
+<div class="screen fan-screen" id="screen12">
+  <div class="fan-img-wrap" onclick="goTo(13)">
+    <img src="https://i.ibb.co/35BPswN5/944ab881c0fa632815b761261382e8e8bc35a601f20c41e7a979a79765a9cdbd.png" alt="Gumball e Penny">
+    <div class="fan-border"></div>
   </div>
-  <div class="hp-quote-wrap">
-    <div class="hp-quote-open">❝</div>
-    <p class="hp-personal">Eu te amo não pelo que você é por fora, mas pelo que você é por dentro, assim como o Gumball —</p>
-    <blockquote class="hp-citation">"Eu não me importo com o que você tem por fora. Eu amo o que você é por dentro, mesmo que você seja um monstro mutante de formato mutável."</blockquote>
+  <div class="fan-quote-wrap">
+    <p class="fan-tagline">Eu te amo não pelo que você é por fora, mas pelo que você é por dentro, assim como o Gumball</p>
+    <blockquote class="fan-quote">"Eu não me importo com o que você tem por fora. Eu amo o que você é por dentro, mesmo que você seja um monstro mutante de formato mutável."</blockquote>
   </div>
-  <div class="hp-author">
-    <div class="hp-author-line"></div>
+  <div class="fan-author">
+    <div class="fan-author-line"></div>
     <span>Gumball para Penny</span>
-    <div class="hp-author-line"></div>
+    <div class="fan-author-line"></div>
   </div>
 </div>
 
 <!-- SCREEN 13 — Através da Minha Janela -->
-<div class="screen hp-screen" id="screen13">
-  <div class="hp-frame">
-    <div class="hp-stars"></div>
-    <div class="hp-img-wrap" onclick="goTo(14)" style="cursor:pointer;">
-      <div class="hp-img-glow"></div>
-      <img src="https://i.ibb.co/NdvbdWm0/entretenimento-atraves-da-minha-janela-alem-mar-explicamos-o-final-do-romance-da-netflix-1708770033.jpg" alt="Através da Minha Janela" class="hp-img">
-      <div class="hp-img-overlay"></div>
-      <div class="hp-tap-hint">▶ toque para continuar</div>
-    </div>
+<div class="screen fan-screen" id="screen13" style="background:radial-gradient(ellipse at 50% 45%,#1a0d1a 0%,#0a0510 75%); --accent:#c06ed4; --accent2:#e0a8f0;">
+  <div class="fan-img-wrap" onclick="goTo(14)">
+    <img src="https://i.ibb.co/NdvbdWm0/entretenimento-atraves-da-minha-janela-alem-mar-explicamos-o-final-do-romance-da-netflix-1708770033.jpg" alt="Através da Minha Janela">
+    <div class="fan-border" style="border-color:rgba(192,110,212,0.25);"></div>
   </div>
-  <div class="hp-quote-wrap">
-    <div class="hp-quote-open">❝</div>
-    <p class="hp-personal">Você se tornou o meu amor da casa ao lado, assim como em Através da minha janela —</p>
-    <blockquote class="hp-citation">"Você não é apenas a garota da casa ao lado. Você é a pessoa que virou o meu mundo inteiro de cabeça para baixo."</blockquote>
+  <div class="fan-quote-wrap">
+    <p class="fan-tagline" style="color:var(--cream);">Você se tornou o meu amor da casa ao lado, assim como em Através da minha janela</p>
+    <blockquote class="fan-quote" style="color:#e0a8f0;border-color:#c06ed4;">"Você não é apenas a garota da casa ao lado. Você é a pessoa que virou o meu mundo inteiro de cabeça para baixo."</blockquote>
   </div>
-  <div class="hp-author">
-    <div class="hp-author-line"></div>
+  <div class="fan-author" style="color:#e0a8f0;">
+    <div class="fan-author-line" style="background:linear-gradient(90deg,transparent,#c06ed4,transparent);opacity:0.5;"></div>
     <span>Raquel para Ares</span>
-    <div class="hp-author-line"></div>
+    <div class="fan-author-line" style="background:linear-gradient(90deg,transparent,#c06ed4,transparent);opacity:0.5;"></div>
   </div>
 </div>
 
-<!-- SCREEN 14 — FINAL CARTA -->
-<div class="screen" id="screen14" style="background: radial-gradient(ellipse at 30% 20%, #2a0a18 0%, #110610 40%, #060308 100%); overflow:hidden; padding:0; justify-content:center; align-items:center;">
+<!-- SCREEN 14 — CARTA FINAL COM ENVELOPE -->
+<div class="screen" id="screen14">
 
   <style>
-    /* ── BG FLOATS ── */
-    @keyframes rf14 {
-      0%,100%{ opacity:.6; transform:translateY(0) rotate(-5deg); }
-      50%    { opacity:1;  transform:translateY(-10px) rotate(5deg); }
+    #screen14 {
+      background: radial-gradient(ellipse at 40% 30%, #200a14 0%, #100610 50%, #070308 100%);
+      overflow: hidden;
+      padding: 0;
+      justify-content: center;
+      align-items: center;
     }
 
-    /* ── ENVELOPE ARRIVE ── */
+    /* ── ROSE / HEART RAIN ── */
+    .rain-drop {
+      position: fixed;
+      top: -60px;
+      font-size: 1.1rem;
+      animation: rain-fall linear infinite;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 11;
+      user-select: none;
+    }
+    @keyframes rain-fall {
+      0%   { transform: translateY(0) rotate(-10deg) scale(0.6); opacity: 0; }
+      10%  { opacity: 0.35; }
+      88%  { opacity: 0.25; }
+      100% { transform: translateY(115vh) rotate(15deg) scale(0.9); opacity: 0; }
+    }
+    /* inside letter overlay the rain stays BEHIND the paper */
+    #letter14 .rain-drop {
+      z-index: 301;
+    }
+    #letter14-paper {
+      position: relative;
+      z-index: 302;
+    }
+      100% { transform: translateY(115vh) rotate(25deg) scale(1.1); opacity: 0; }
+    }
+
+    /* ── ENVELOPE SCENE ── */
+    #env14-scene {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 20;
+      animation: env-arrive 1.1s cubic-bezier(.22,1,.36,1) forwards 0.4s;
+      opacity: 0;
+    }
     @keyframes env-arrive {
-      from { opacity:0; transform:translateY(60px) scale(.92); }
-      to   { opacity:1; transform:translateY(0)    scale(1);   }
+      from { opacity: 0; transform: translateY(50px) scale(0.93); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    /* ── HINT PULSE ── */
-    @keyframes hint-pulse {
-      0%,100%{ opacity:.45; transform:translateY(0); }
-      50%    { opacity:.9;  transform:translateY(-4px); }
+    #env14-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(2rem, 7vw, 3rem);
+      color: var(--cream);
+      text-shadow: 0 0 30px rgba(200,100,122,0.5);
+      margin-bottom: 1.4rem;
+      animation: fade-slide-up 1s ease forwards 1s;
+      opacity: 0;
+      text-align: center;
+      line-height: 1.3;
+    }
+    #env14-title em { color: var(--rose-light); font-style: normal; }
+
+    #env14-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(0.8rem, 3.2vw, 0.95rem);
+      color: var(--rose-light);
+      opacity: 0;
+      margin-bottom: 2rem;
+      letter-spacing: 1px;
+      animation: fade-slide-up 1s ease forwards 1.3s;
     }
 
-    /* ── FLAP OPEN ── */
-    @keyframes flap-open {
+    /* envelope box */
+    #env14-box {
+      width: min(280px, 80vw);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      position: relative;
+      filter: drop-shadow(0 16px 40px rgba(0,0,0,0.8)) drop-shadow(0 0 50px rgba(200,100,122,0.25));
+      transition: transform 0.2s ease;
+    }
+    #env14-box:active { transform: scale(0.96); }
+
+    #env14-hint {
+      margin-top: 1.2rem;
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 3px;
+      color: rgba(232,160,176,0.65);
+      text-transform: uppercase;
+      animation: hint-pulse14 2.2s ease-in-out infinite;
+    }
+    @keyframes hint-pulse14 {
+      0%,100% { opacity: 0.45; transform: translateY(0); }
+      50%      { opacity: 1;    transform: translateY(-4px); }
+    }
+    #env14-hint.gone { opacity: 0; transition: opacity 0.3s; }
+
+    /* flap animation */
+    #env14-flap {
+      transform-origin: 50% 0%;
+      transform-box: fill-box;
+    }
+    #env14-flap.open {
+      animation: flap14 0.65s cubic-bezier(.4,0,.2,1) forwards;
+    }
+    @keyframes flap14 {
       from { transform: rotateX(0deg); }
       to   { transform: rotateX(-180deg); }
     }
 
-    /* ── LETTER RISE ── */
-    @keyframes letter-rise {
-      0%   { transform:translateY(0);    opacity:0; }
-      20%  { opacity:1; }
-      100% { transform:translateY(-115%); opacity:1; }
-    }
-
-    /* ── LETTER SCROLL (after rise) ── */
-    @keyframes letter-settle {
-      from { opacity:0; transform:translateY(30px); }
-      to   { opacity:1; transform:translateY(0); }
-    }
-
-    /* ── HINT FADE OUT ── */
-    @keyframes hint-fade {
-      to { opacity:0; pointer-events:none; }
-    }
-
-    /* envelope wrapper */
-    #env-scene {
-      position:relative;
-      width: min(300px, 85vw);
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-    }
-
-    /* the envelope body */
-    #envelope {
-      position:relative;
-      width:100%;
-      cursor:pointer;
-      -webkit-tap-highlight-color:transparent;
-      filter: drop-shadow(0 12px 30px rgba(0,0,0,.7)) drop-shadow(0 0 40px rgba(200,100,122,.18));
-    }
-
-    /* SVG envelope pieces */
-    #env-svg { display:block; width:100%; }
-
-    /* flap (top triangle) — rotates on open */
-    #env-flap {
-      transform-origin: top center;
-      transform-box: fill-box;
-      transition: none;
-    }
-    #env-flap.open {
-      animation: flap-open .6s cubic-bezier(.4,0,.2,1) forwards;
-    }
-
-    /* letter peeking from envelope */
-    #env-letter-peek {
-      position:absolute;
-      bottom: 30%;   /* sits inside envelope initially */
-      left: 5%;
-      width: 90%;
-      height: 70%;
-      background: linear-gradient(160deg,#fdf6ee,#f9ede0,#f5e4d0);
+    /* letter peek */
+    #env14-peek {
+      position: absolute;
+      bottom: 28%;
+      left: 6%;
+      width: 88%;
+      height: 68%;
+      background: linear-gradient(160deg, #fdf6ee, #f9ede0, #f5e4d0);
       border-radius: 3px 3px 0 0;
-      box-shadow: 0 -2px 8px rgba(0,0,0,.2);
-      z-index: -1;  /* behind envelope front */
+      z-index: -1;
       opacity: 0;
     }
-    #env-letter-peek.rising {
+    #env14-peek.rise {
       z-index: 2;
       opacity: 1;
-      animation: letter-rise .9s cubic-bezier(.2,.8,.3,1) forwards .5s;
+      animation: peek-rise14 0.9s cubic-bezier(.2,.8,.3,1) forwards 0.4s;
+    }
+    @keyframes peek-rise14 {
+      0%   { transform: translateY(0); opacity: 0; }
+      15%  { opacity: 1; }
+      100% { transform: translateY(-120%); opacity: 1; }
     }
 
-    /* tap hint text */
-    #env-hint {
-      margin-top: 1.2rem;
-      font-family:'Raleway',sans-serif;
-      font-size:.6rem;
-      letter-spacing:3px;
-      color:rgba(232,160,176,.7);
-      text-transform:uppercase;
-      animation: hint-pulse 2s ease-in-out infinite;
+    /* ── LETTER OVERLAY ── */
+    #letter14 {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      background: radial-gradient(ellipse at 40% 20%, #200a14 0%, #100610 50%, #070308 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 1.5rem 1rem 3rem;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease;
     }
-    #env-hint.hide {
-      animation: hint-fade .3s forwards;
+    #letter14.open {
+      opacity: 1;
+      pointer-events: all;
     }
 
-    /* ── FULL LETTER OVERLAY ── */
-    #letter-overlay {
-      position:fixed;
-      inset:0;
-      z-index:200;
-      background: radial-gradient(ellipse at 30% 20%, #2a0a18 0%, #110610 40%, #060308 100%);
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:flex-start;
-      padding: 1.5rem 1rem 2rem;
-      overflow-y:auto;
-      -webkit-overflow-scrolling:touch;
-      opacity:0;
-      pointer-events:none;
-      transition: opacity .5s ease;
-    }
-    #letter-overlay.visible {
-      opacity:1;
-      pointer-events:all;
-    }
-    #letter-paper {
-      position:relative;
-      width: min(340px,92vw);
-      background: linear-gradient(160deg,#fdf6ee 0%,#f9ede0 55%,#f5e4d0 100%);
-      border-radius:4px;
+    /* rain inside letter overlay stays BEHIND the paper */
+    #letter14 .rain-drop { z-index: 301; pointer-events: none; }
+    #letter14-paper      { position: relative; z-index: 302; }
+
+    #letter14-paper {
+      width: min(340px, 92vw);
+      background: linear-gradient(160deg, #fdf6ee 0%, #f9ede0 55%, #f5e4d0 100%);
+      border-radius: 5px;
       box-shadow:
-        0 0 0 1px rgba(212,168,83,.25),
-        0 2px 0 rgba(212,168,83,.35),
-        6px 12px 40px rgba(0,0,0,.65),
-        0 0 80px rgba(200,100,122,.12);
-      transform: rotate(-1.5deg);
-      animation: letter-settle .8s cubic-bezier(.22,1,.36,1) forwards;
+        0 0 0 1px rgba(212,168,83,.3),
+        0 3px 0 rgba(212,168,83,.4),
+        8px 16px 50px rgba(0,0,0,.7),
+        0 0 80px rgba(200,100,122,.15);
+      transform: rotate(-1deg);
+      animation: letter-settle14 0.9s cubic-bezier(.22,1,.36,1) both;
       margin: auto;
+      position: relative;
+    }
+    @keyframes letter-settle14 {
+      from { opacity: 0; transform: translateY(40px) rotate(-1deg); }
+      to   { opacity: 1; transform: translateY(0)    rotate(-1deg); }
+    }
+
+    .letter14-ribbon {
+      width: 100%;
+      height: 7px;
+      background: linear-gradient(90deg, #c8647a, #d4a853, #e8a0b0, #d4a853, #c8647a);
+      border-radius: 5px 5px 0 0;
+    }
+    .letter14-body {
+      padding: 1.4rem 1.5rem 1.6rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .letter14-wm {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%) rotate(-15deg);
+      font-size: 8rem;
+      opacity: 0.04;
+      pointer-events: none;
+      user-select: none;
+      line-height: 1;
+    }
+    .letter14-ornament {
+      text-align: center;
+      margin-bottom: 1rem;
+      font-family: 'Great Vibes', cursive;
+      font-size: 0.9rem;
+      color: #c8647a;
+      letter-spacing: 4px;
+      opacity: 0.6;
+    }
+    .letter14-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(1.7rem, 6vw, 2.3rem);
+      color: #9a1a40;
+      text-align: center;
+      margin-bottom: 1.1rem;
+      text-shadow: 0 1px 4px rgba(200,100,122,0.2);
+      line-height: 1.25;
+    }
+    .letter14-divider {
+      width: 70%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(200,100,122,0.4), transparent);
+      margin: 0 auto 1.1rem;
+    }
+    .letter14-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(0.88rem, 3.5vw, 1.02rem);
+      color: #28101a;
+      line-height: 1.9;
+      position: relative;
+      z-index: 1;
+    }
+    .letter14-text p { margin-bottom: 1rem; }
+    .letter14-sig {
+      text-align: right;
+      margin-top: 0.5rem;
+    }
+    .letter14-sig-name {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(1.4rem, 5.5vw, 1.9rem);
+      color: #c8647a;
+      line-height: 1.2;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+    .letter14-sig-hearts {
+      font-size: 1.1rem;
+      letter-spacing: 4px;
+    }
+    .letter14-bottom-line {
+      width: 55%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(200,100,122,.35), transparent);
+      margin: 0.8rem auto 0.9rem;
     }
   </style>
 
-  <!-- bg glows -->
-  <div style="position:fixed;inset:0;pointer-events:none;z-index:0;">
-    <div style="position:absolute;width:300px;height:300px;top:-60px;left:-80px;background:radial-gradient(ellipse,rgba(200,100,122,.15) 0%,transparent 70%);border-radius:50%;"></div>
-    <div style="position:absolute;width:250px;height:250px;bottom:-40px;right:-60px;background:radial-gradient(ellipse,rgba(212,168,83,.12) 0%,transparent 70%);border-radius:50%;"></div>
+  <!-- ambient glows -->
+  <div style="position:fixed;inset:0;pointer-events:none;z-index:1;">
+    <div style="position:absolute;width:350px;height:350px;top:-80px;left:-100px;background:radial-gradient(ellipse,rgba(200,100,122,.12) 0%,transparent 70%);border-radius:50%;animation:pulse-glow 5s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:300px;height:300px;bottom:-60px;right:-80px;background:radial-gradient(ellipse,rgba(212,168,83,.09) 0%,transparent 70%);border-radius:50%;animation:pulse-glow 6s ease-in-out infinite 1s;"></div>
   </div>
 
-  <!-- floating emojis -->
-  <div style="position:fixed;top:5%;left:4%;font-size:1.3rem;animation:rf14 6s ease-in-out infinite .4s;opacity:0;z-index:11;pointer-events:none;">🌹</div>
-  <div style="position:fixed;top:8%;right:6%;font-size:1rem;animation:rf14 7s ease-in-out infinite 1.1s;opacity:0;z-index:11;pointer-events:none;">🌸</div>
-  <div style="position:fixed;bottom:7%;left:6%;font-size:1rem;animation:rf14 5.5s ease-in-out infinite .7s;opacity:0;z-index:11;pointer-events:none;">✨</div>
-  <div style="position:fixed;bottom:8%;right:5%;font-size:1.2rem;animation:rf14 6.5s ease-in-out infinite 1.7s;opacity:0;z-index:11;pointer-events:none;">💕</div>
-
   <!-- ENVELOPE SCENE -->
-  <div id="env-scene" style="opacity:0;animation:env-arrive 1s cubic-bezier(.22,1,.36,1) forwards .5s;">
+  <div id="env14-scene">
+    <div id="env14-title">Uma carta<br>para <em>você</em> 💌</div>
+    <div id="env14-sub">— toque no envelope para abrir —</div>
 
-    <div id="envelope" onclick="openEnvelope()">
-
-      <!-- letter peek layer (behind SVG) -->
-      <div id="env-letter-peek"></div>
-
-      <!-- SVG envelope -->
-      <svg id="env-svg" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" style="overflow:visible;">
+    <div id="env14-box" onclick="openLetter14()">
+      <div id="env14-peek"></div>
+      <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;overflow:visible;">
         <defs>
-          <linearGradient id="envBody" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#f5e6d5"/>
-            <stop offset="100%" stop-color="#e8d0b8"/>
+          <linearGradient id="eg14b" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#f7e8d5"/>
+            <stop offset="100%" stop-color="#ebd4b8"/>
           </linearGradient>
-          <linearGradient id="envFlap" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#eddcc8"/>
-            <stop offset="100%" stop-color="#dfc8a8"/>
-          </linearGradient>
-          <linearGradient id="envShadowL" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stop-color="rgba(0,0,0,.18)"/>
-            <stop offset="100%" stop-color="transparent"/>
-          </linearGradient>
-          <linearGradient id="envShadowR" x1="1" y1="0" x2="0" y2="0">
-            <stop offset="0%" stop-color="rgba(0,0,0,.18)"/>
-            <stop offset="100%" stop-color="transparent"/>
+          <linearGradient id="eg14f" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#f0ddc8"/>
+            <stop offset="100%" stop-color="#dfc5a5"/>
           </linearGradient>
         </defs>
-
-        <!-- envelope body -->
-        <rect x="0" y="20" width="300" height="180" rx="4" ry="4" fill="url(#envBody)" stroke="rgba(212,168,83,.55)" stroke-width="1.2"/>
-
-        <!-- bottom-left triangle fold -->
-        <polygon points="0,20 150,115 0,200" fill="rgba(0,0,0,.07)"/>
-        <!-- bottom-right triangle fold -->
-        <polygon points="300,20 150,115 300,200" fill="rgba(0,0,0,.05)"/>
-        <!-- bottom triangle -->
-        <polygon points="0,200 150,115 300,200" fill="#ead8c0" stroke="rgba(212,168,83,.4)" stroke-width=".8"/>
-
-        <!-- fold shadow left -->
-        <polygon points="0,20 150,115 0,200" fill="url(#envShadowL)" opacity=".5"/>
-        <!-- fold shadow right -->
-        <polygon points="300,20 150,115 300,200" fill="url(#envShadowR)" opacity=".5"/>
-
-        <!-- FLAP (top triangle) — will rotate open -->
-        <g id="env-flap">
-          <polygon points="0,20 300,20 150,110" fill="url(#envFlap)" stroke="rgba(212,168,83,.55)" stroke-width="1"/>
-          <!-- flap inner line -->
-          <line x1="0" y1="20" x2="150" y2="110" stroke="rgba(212,168,83,.3)" stroke-width=".6"/>
-          <line x1="300" y1="20" x2="150" y2="110" stroke="rgba(212,168,83,.3)" stroke-width=".6"/>
-        </g>
-
-        <!-- wax seal -->
-        <circle cx="150" cy="110" r="18" fill="#c8647a" stroke="#d4a853" stroke-width="1.5"/>
-        <text x="150" y="115" text-anchor="middle" font-size="14" fill="#fce8ef" font-family="serif">❤</text>
-
-        <!-- gold border accent top -->
-        <line x1="8" y1="28" x2="292" y2="28" stroke="rgba(212,168,83,.25)" stroke-width=".8"/>
-      </svg>
-
-    </div><!-- /envelope -->
-
-    <div id="env-hint">toque para abrir ✦</div>
-
-  </div><!-- /env-scene -->
-
-
-  <!-- FULL LETTER OVERLAY -->
-  <div id="letter-overlay">
-    <div id="letter-paper">
-      <!-- top ribbon -->
-      <div style="width:100%;height:6px;background:linear-gradient(90deg,#c8647a,#d4a853,#e8a0b0,#d4a853,#c8647a);border-radius:4px 4px 0 0;"></div>
-
-      <div style="padding:1.3rem 1.4rem 1.5rem;position:relative;overflow:hidden;">
-        <!-- watermark -->
-        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-15deg);font-size:9rem;opacity:.035;pointer-events:none;user-select:none;line-height:1;">🌹</div>
-
-        <!-- ornament -->
-        <div style="text-align:center;margin-bottom:.9rem;">
-          <span style="font-family:'Great Vibes',cursive;font-size:.9rem;color:#c8647a;letter-spacing:4px;opacity:.65;">— ✦ —</span>
-        </div>
-
         <!-- body -->
-        <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(.83rem,3.3vw,.97rem);color:#28101a;line-height:1.88;position:relative;z-index:1;">
+        <rect x="0" y="20" width="300" height="180" rx="5" fill="url(#eg14b)" stroke="rgba(212,168,83,.6)" stroke-width="1.3"/>
+        <!-- bottom triangle -->
+        <polygon points="0,200 150,115 300,200" fill="#e8d4bc" stroke="rgba(212,168,83,.45)" stroke-width="0.8"/>
+        <!-- side folds shadows -->
+        <polygon points="0,20 150,115 0,200"   fill="rgba(0,0,0,.08)"/>
+        <polygon points="300,20 150,115 300,200" fill="rgba(0,0,0,.06)"/>
+        <!-- flap -->
+        <g id="env14-flap">
+          <polygon points="0,21 300,21 150,112" fill="url(#eg14f)" stroke="rgba(212,168,83,.6)" stroke-width="1"/>
+          <line x1="0"   y1="21" x2="150" y2="112" stroke="rgba(212,168,83,.25)" stroke-width="0.6"/>
+          <line x1="300" y1="21" x2="150" y2="112" stroke="rgba(212,168,83,.25)" stroke-width="0.6"/>
+        </g>
+        <!-- wax seal -->
+        <circle cx="150" cy="112" r="20" fill="#c8647a" stroke="#d4a853" stroke-width="1.8"/>
+        <text x="150" y="118" text-anchor="middle" font-size="15" fill="#fce8ef" font-family="serif">❤</text>
+        <!-- top accent line -->
+        <line x1="10" y1="29" x2="290" y2="29" stroke="rgba(212,168,83,.2)" stroke-width="0.8"/>
+      </svg>
+    </div>
 
-          <p style="margin-bottom:.9rem;">Feliz aniversário minha princesa, hoje é um dia muito especial e fiz uma "surpresa" especial para você, para animar seu dia e para sempre te lembrar do amor que eu tenho por você, da importância que você tem para a minha vida, você meu bem, é o amor da minha vida, a minha luz e a minha paz, cada segundo ao seu lado foi mágico e incrível, e hoje é o dia de comemorar seus 17 anos, espero que tenha gostado da surpresa e que seu dia possa ter sido especial e incrível.</p>
+    <div id="env14-hint">toque para abrir ✦</div>
+  </div>
 
-          <p style="margin-bottom:.9rem;">Que Deus sempre possa te abençoar e sempre possa estar com você, que ele ilumine seus caminhos, suas decisões e te guarde e te proteja de toda a maldade desse mundo, que sempre esteja ao seu lado, e que você sempre seja essa menina incrível que você é.</p>
-
-          <p style="margin-bottom:.9rem;">Eu tenho muito orgulho de você meu amor, da mulher que você é, de ser o seu amor e de estar ao seu lado, que você sempre conte comigo para o que precisar, e sempre estarei aqui como seu amigo ou amiga kkkkkk, como seu namorado e como seu pareceiro pro resto da vida, você é a minha luz e o meu anjinho meu amor!🤍</p>
-
-          <p style="margin-bottom:1.3rem;">Eu te amo mais do que tudo nesse mundo</p>
-
-          <div style="width:55%;height:1px;background:linear-gradient(90deg,transparent,rgba(200,100,122,.35),transparent);margin:0 auto .85rem;"></div>
-
-          <div style="text-align:right;">
-            <p style="font-family:'Great Vibes',cursive;font-size:clamp(1.4rem,5.5vw,1.8rem);color:#c8647a;line-height:1.2;margin-bottom:.3rem;">- Do seu amor, João</p>
-            <p style="font-size:1rem;letter-spacing:4px;">🌹❤️🌹</p>
-          </div>
+  <!-- LETTER OVERLAY -->
+  <div id="letter14">
+    <div id="letter14-paper">
+      <div class="letter14-ribbon"></div>
+      <div class="letter14-body">
+        <div class="letter14-wm">🌹</div>
+        <div class="letter14-ornament">— ✦ —</div>
+        <div class="letter14-title">Para o amor da minha vida</div>
+        <div class="letter14-divider"></div>
+        <div class="letter14-text">
+          <p>Feliz aniversário minha princesa, hoje é um dia muito especial e fiz uma "surpresa" especial para você, para animar seu dia e para sempre te lembrar do amor que eu tenho por você, da importância que você tem para a minha vida, você meu bem, é o amor da minha vida, a minha luz e a minha paz, cada segundo ao seu lado foi mágico e incrível, e hoje é o dia de comemorar seus 17 anos, espero que tenha gostado da surpresa e que seu dia possa ter sido especial e incrível.</p>
+          <p>Que Deus sempre possa te abençoar e sempre possa estar com você, que ele ilumine seus caminhos, suas decisões e te guarde e te proteja de toda a maldade desse mundo, que sempre esteja ao seu lado, e que você sempre seja essa menina incrível que você é.</p>
+          <p>Eu tenho muito orgulho de você meu amor, da mulher que você é, de ser o seu amor e de estar ao seu lado, que você sempre conte comigo para o que precisar, e sempre estarei aqui como seu amigo ou amiga kkkkkk, como seu namorado e como seu parceiro pro resto da vida, você é a minha luz e o meu anjinho meu amor! 🤍</p>
+          <p>Eu te amo mais do que tudo nesse mundo</p>
+        </div>
+        <div class="letter14-bottom-line"></div>
+        <div class="letter14-sig">
+          <span class="letter14-sig-name">- Do seu amor, João</span>
+          <div class="letter14-sig-hearts">🌹❤️🌹</div>
         </div>
       </div>
     </div>
     <div style="height:2rem;flex-shrink:0;"></div>
-  </div><!-- /letter-overlay -->
+  </div>
 
 </div><!-- /screen14 -->
 
 <script>
-  function openEnvelope() {
-    const flap    = document.getElementById('env-flap');
-    const peek    = document.getElementById('env-letter-peek');
-    const hint    = document.getElementById('env-hint');
-    const overlay = document.getElementById('letter-overlay');
-    const envelope= document.getElementById('envelope');
+  // ── ROSE RAIN ──
+  const RAIN_EMOJIS = ['🌹','🌹','🌹','❤️','💕','🌸','✨','🌹'];
+  let rainInterval = null;
 
-    if (flap.classList.contains('open')) return; // already opened
+  function startRain(container) {
+    if (rainInterval) clearInterval(rainInterval);
+    rainInterval = setInterval(() => {
+      const el = document.createElement('div');
+      el.className = 'rain-drop';
+      el.textContent = RAIN_EMOJIS[Math.floor(Math.random() * RAIN_EMOJIS.length)];
+      const size = 0.8 + Math.random() * 0.7;
+      el.style.cssText = `
+        left: ${Math.random() * 100}%;
+        font-size: ${size}rem;
+        animation-duration: ${9 + Math.random() * 8}s;
+        animation-delay: ${Math.random() * 1.5}s;
+      `;
+      container.appendChild(el);
+      setTimeout(() => el.remove(), 18000);
+    }, 600);
+  }
 
-    // 1. hide hint
-    hint.classList.add('hide');
+  function openLetter14() {
+    const flap    = document.getElementById('env14-flap');
+    const peek    = document.getElementById('env14-peek');
+    const hint    = document.getElementById('env14-hint');
+    const overlay = document.getElementById('letter14');
 
-    // 2. open flap
+    if (flap.classList.contains('open')) return;
+
+    hint.classList.add('gone');
     flap.classList.add('open');
 
-    // 3. letter peek rises
-    setTimeout(() => {
-      peek.classList.add('rising');
-    }, 300);
+    setTimeout(() => { peek.classList.add('rise'); }, 250);
 
-    // 4. show full letter overlay
     setTimeout(() => {
-      overlay.classList.add('visible');
-    }, 1400);
+      overlay.classList.add('open');
+      startRain(overlay);
+    }, 1350);
   }
 </script>
 
@@ -1148,6 +1205,7 @@
   }
   for (let i = 0; i < 40; i++) createParticle();
 
+  // petals
   function createPetal() {
     const el = document.createElement('div');
     el.className = 'petal';
@@ -1178,7 +1236,7 @@
     setTimeout(() => el.remove(), 9000);
   }
 
-  // ── NAVIGATION ──
+  // ── SCREEN NAVIGATION ──
   let current = 1;
   function goTo(n) {
     const from = document.getElementById('screen' + current);
@@ -1195,6 +1253,7 @@
       void el.offsetWidth;
       el.style.animation = '';
     });
+    // spawn hearts on screens 2+
     if (n >= 2) {
       let count = 0;
       const iv = setInterval(() => {
@@ -1202,11 +1261,9 @@
         if (++count >= 5) clearInterval(iv);
       }, 600);
     }
-    // extra hearts burst on final screen
+    // start rose rain on final screen
     if (n === 14) {
-      for (let i = 0; i < 12; i++) {
-        setTimeout(() => spawnHeart(to), i * 300);
-      }
+      setTimeout(() => startRain(to), 800);
     }
   }
 </script>
