@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Feliz Aniversário Baby 🌹</title>
+<title>Feliz Aniversário ❤️</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Great+Vibes&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -1136,9 +1136,218 @@
       </div>
     </div>
     <div style="height:2rem;flex-shrink:0;"></div>
+    <!-- arrow to album -->
+    <button class="arrow-btn" onclick="goTo(15)" aria-label="Próxima tela" style="margin:0 auto 2rem;opacity:1;animation:none;border-color:rgba(200,100,122,0.5);background:rgba(200,100,122,0.08);flex-shrink:0;position:relative;z-index:303;">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#c8647a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
   </div>
 
 </div><!-- /screen14 -->
+
+<!-- SCREEN 15 — ÁLBUM DE FOTOS -->
+<div class="screen" id="screen15">
+  <style>
+    #screen15 {
+      background: #0e0509;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 2.5rem 1.2rem 3rem;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 0;
+    }
+
+    /* notebook rings top */
+    .album-rings {
+      display: flex;
+      gap: 18px;
+      margin-bottom: 1.2rem;
+      animation: fade-slide-up 1s ease forwards 0.2s;
+      opacity: 0;
+      flex-shrink: 0;
+    }
+    .album-ring {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      border: 3px solid #2a1a22;
+      background: radial-gradient(circle at 35% 35%, #4a3040, #1a0c14);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.7), inset 0 1px 2px rgba(255,255,255,0.08);
+    }
+
+    /* album cover feel */
+    .album-wrap {
+      width: min(360px, 95vw);
+      background: linear-gradient(160deg, #140a10 0%, #0e0509 100%);
+      border: 1px solid rgba(212,168,83,0.15);
+      border-radius: 4px 12px 12px 4px;
+      box-shadow:
+        -6px 0 0 #0a0306,
+        -8px 2px 12px rgba(0,0,0,0.8),
+        0 8px 40px rgba(0,0,0,0.7),
+        0 0 60px rgba(200,100,122,0.06);
+      padding: 1.4rem 1.2rem 1.8rem;
+      animation: fade-slide-up 1s ease forwards 0.4s;
+      opacity: 0;
+      position: relative;
+    }
+
+    /* center title */
+    .album-title-wrap {
+      text-align: center;
+      margin-bottom: 1.2rem;
+      position: relative;
+    }
+    .album-title-main {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(2.4rem, 9vw, 3.4rem);
+      color: var(--cream);
+      text-shadow: 0 0 30px rgba(200,100,122,0.45), 0 2px 8px rgba(0,0,0,0.9);
+      line-height: 1.15;
+      display: block;
+    }
+    .album-title-sub {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(1.6rem, 6vw, 2.2rem);
+      color: var(--rose-light);
+      text-shadow: 0 0 20px rgba(200,100,122,0.3);
+      display: block;
+      margin-top: 0.1rem;
+    }
+    .album-title-divider {
+      width: 60px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 0.7rem auto 0;
+    }
+
+    /* photo grid — polaroid style */
+    .album-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.9rem;
+    }
+
+    .polaroid {
+      background: #fdf6ee;
+      border-radius: 2px;
+      padding: 0.45rem 0.45rem 1.4rem;
+      box-shadow: 3px 5px 16px rgba(0,0,0,0.6), 0 1px 3px rgba(0,0,0,0.3);
+      position: relative;
+      transform-origin: center;
+      transition: transform 0.2s ease;
+    }
+    .polaroid:nth-child(1) { transform: rotate(-2.5deg); }
+    .polaroid:nth-child(2) { transform: rotate(1.8deg);  }
+    .polaroid:nth-child(3) { transform: rotate(2.2deg);  }
+    .polaroid:nth-child(4) { transform: rotate(-1.5deg); }
+    .polaroid:nth-child(5) { transform: rotate(3deg);    }
+    .polaroid:nth-child(6) { transform: rotate(-2deg);   }
+    .polaroid:active { transform: rotate(0deg) scale(1.04) !important; z-index: 10; }
+
+    .polaroid img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      display: block;
+      border-radius: 1px;
+    }
+
+    /* tape strips */
+    .polaroid::before {
+      content: '';
+      position: absolute;
+      width: 36px; height: 14px;
+      background: rgba(255,220,180,0.45);
+      border: 1px solid rgba(255,200,140,0.3);
+      border-radius: 2px;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-1deg);
+      backdrop-filter: blur(2px);
+    }
+    .polaroid:nth-child(even)::before  { transform: translateX(-50%) rotate(2deg); }
+
+    /* washi tape color variants */
+    .polaroid:nth-child(1)::before { background: rgba(200,100,122,0.3); border-color: rgba(200,100,122,0.2); }
+    .polaroid:nth-child(2)::before { background: rgba(212,168,83,0.35); border-color: rgba(212,168,83,0.25); }
+    .polaroid:nth-child(3)::before { background: rgba(180,140,255,0.3); border-color: rgba(180,140,255,0.2); }
+    .polaroid:nth-child(4)::before { background: rgba(200,100,122,0.3); border-color: rgba(200,100,122,0.2); }
+    .polaroid:nth-child(5)::before { background: rgba(212,168,83,0.35); border-color: rgba(212,168,83,0.25); }
+    .polaroid:nth-child(6)::before { background: rgba(90,171,133,0.3);  border-color: rgba(90,171,133,0.2);  }
+
+    /* sticker decorations on album */
+    .album-sticker {
+      position: absolute;
+      font-size: 1.1rem;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* bottom signature */
+    .album-sig {
+      text-align: center;
+      margin-top: 1.4rem;
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(1.1rem, 4.5vw, 1.5rem);
+      color: var(--gold);
+      opacity: 0.6;
+      animation: fade-slide-up 1s ease forwards 0.9s;
+      opacity: 0;
+    }
+  </style>
+
+  <!-- rings -->
+  <div class="album-rings">
+    <div class="album-ring"></div>
+    <div class="album-ring"></div>
+    <div class="album-ring"></div>
+    <div class="album-ring"></div>
+    <div class="album-ring"></div>
+    <div class="album-ring"></div>
+    <div class="album-ring"></div>
+  </div>
+
+  <!-- album body -->
+  <div class="album-wrap">
+
+    <!-- stickers decorativos -->
+    <div class="album-sticker" style="top:0.6rem;right:1rem;transform:rotate(15deg);">🌹</div>
+    <div class="album-sticker" style="top:0.6rem;left:0.8rem;transform:rotate(-10deg);">✨</div>
+    <div class="album-sticker" style="bottom:1rem;right:0.8rem;transform:rotate(8deg);">💕</div>
+    <div class="album-sticker" style="bottom:1rem;left:0.7rem;transform:rotate(-12deg);">🌸</div>
+
+    <!-- título central -->
+    <div class="album-title-wrap">
+      <span class="album-title-main">Feliz aniversário</span>
+      <span class="album-title-sub">Meu amor! 🤍</span>
+      <div class="album-title-divider"></div>
+    </div>
+
+    <!-- fotos -->
+    <div class="album-grid">
+      <div class="polaroid">
+        <img src="https://i.ibb.co/hJ9pmWFB/Whats-App-Image-2026-05-16-at-19-32-51-2.jpg" alt="foto 1">
+      </div>
+      <div class="polaroid">
+        <img src="https://i.ibb.co/7JwmNhJL/Whats-App-Image-2026-05-16-at-19-32-51.jpg" alt="foto 2">
+      </div>
+      <div class="polaroid">
+        <img src="https://i.ibb.co/cK43cfHv/Whats-App-Image-2026-05-15-at-18-50-14-1.jpg" alt="foto 3">
+      </div>
+      <div class="polaroid">
+        <img src="https://i.ibb.co/ZpCngKDz/Whats-App-Image-2026-05-15-at-18-50-09.jpg" alt="foto 4">
+      </div>
+      <div class="polaroid">
+        <img src="https://i.ibb.co/9mNTPHYL/Whats-App-Image-2026-05-15-at-18-50-07.jpg" alt="foto 5">
+      </div>
+      <div class="polaroid">
+        <img src="https://i.ibb.co/pBDLs87k/Whats-App-Image-2026-05-16-at-19-32-51-1-Copia.jpg" alt="foto 6">
+      </div>
+    </div>
+  </div>
+
+  <div class="album-sig">— com todo o meu amor ❤️ —</div>
+
+</div><!-- /screen15 -->
 
 <script>
   // ── ROSE RAIN ──
