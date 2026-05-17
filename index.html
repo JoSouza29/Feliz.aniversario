@@ -131,13 +131,18 @@
     text-shadow: 0 1px 6px rgba(0,0,0,0.6);
   }
 
-  /* ───── SCREEN 2 ───── */
+  /* ───── SCREEN 2 — FIX: scrollable + image cropped to face ───── */
   #screen2 {
     background: radial-gradient(ellipse at 50% 40%, #180d14 0%, #0a0608 75%);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    justify-content: flex-start;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
   }
   .photo-frame {
     position: relative;
-    width: min(240px, 62vw);
+    width: min(200px, 55vw);
     aspect-ratio: 3/4;
     animation: fade-slide-up 1s ease forwards 0.4s;
     opacity: 0;
@@ -146,6 +151,8 @@
   .photo-frame img {
     width: 100%; height: 100%;
     object-fit: cover;
+    /* crop from top so the face/body is centred, cutting the blank sky above */
+    object-position: center 20%;
     border-radius: 4px;
     display: block;
   }
@@ -267,7 +274,6 @@
     font-style: normal;
     font-weight: 400;
   }
-  /* highlight key phrases */
 
   /* ───── ARROWS ───── */
   .arrow-btn {
@@ -298,7 +304,6 @@
   .arrow-down-btn { animation-delay: 1.3s; }
   .arrow-down-btn svg { transform: rotate(90deg); }
 
-  /* s1 arrow */
   #screen1 .arrow-btn { animation-delay: 1.5s; }
   #screen1 .arrow-btn svg path { stroke: var(--gold-light); }
   #screen2 .arrow-btn svg path { stroke: var(--gold-light); }
@@ -392,55 +397,15 @@
     z-index: -1;
   }
 
+  /* ── SCREEN 4 quote — now using unified fan-quote style ── */
   .hp-quote-wrap {
     margin-top: 1.4rem;
     position: relative;
     max-width: 340px;
+    width: 100%;
     animation: fade-slide-up 1s ease forwards 0.7s;
     opacity: 0;
     text-align: center;
-  }
-  .hp-quote-open {
-    font-family: 'Great Vibes', cursive;
-    font-size: 3rem;
-    line-height: 0.8;
-    color: rgba(180,140,255,0.35);
-    margin-bottom: 0.3rem;
-  }
-  .hp-quote-text {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(0.95rem, 3.8vw, 1.15rem);
-    color: var(--cream);
-    line-height: 1.75;
-    font-weight: 300;
-  }
-  .hp-quote-text em {
-    font-style: italic;
-    color: #c8b4f8;
-    font-size: 1.05em;
-  }
-  .hp-author {
-    margin-top: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    justify-content: center;
-    animation: fade-slide-up 1s ease forwards 1s;
-    opacity: 0;
-  }
-  .hp-author-line {
-    flex: 1;
-    max-width: 50px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(180,140,255,0.4), transparent);
-  }
-  .hp-author span {
-    font-family: 'Raleway', sans-serif;
-    font-size: 0.6rem;
-    letter-spacing: 2px;
-    color: rgba(180,140,255,0.6);
-    text-transform: uppercase;
-    white-space: nowrap;
   }
 
   /* ───── HEARTS ───── */
@@ -465,7 +430,7 @@
     pointer-events: none; z-index: 5;
   }
 
-  /* ───── FAN SCREENS (5–11) ───── */
+  /* ───── FAN SCREENS (5–14) ───── */
   .fan-screen {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
@@ -528,6 +493,14 @@
     margin-bottom: 0.9rem;
     line-height: 1.5;
   }
+  /* ── Unified quote line above + blockquote ── */
+  .fan-quote-divider {
+    width: 70%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, currentColor, transparent);
+    margin: 0 auto 0.75rem;
+    opacity: 0.45;
+  }
   .fan-quote {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
@@ -540,26 +513,31 @@
     border-radius: 0 4px 4px 0;
     background: rgba(255,255,255,0.03);
   }
+
+  /* ── Unified author style ── */
   .fan-author {
-    margin-top: 0.8rem;
+    margin-top: 1rem;
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    animation: fade-slide-up 1s ease forwards 0.9s;
-    opacity: 0;
+    gap: 0.7rem;
+    justify-content: center;
   }
   .fan-author-line {
+    display: block;
     flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, currentColor, transparent);
-    opacity: 0.3;
+    min-width: 30px;
+    max-width: 60px;
+    height: 2px;
+    border-radius: 1px;
+    opacity: 1;
+    box-shadow: 0 0 6px currentColor;
   }
   .fan-author span {
     font-family: 'Raleway', sans-serif;
-    font-size: 0.58rem;
+    font-size: 0.6rem;
     letter-spacing: 2px;
     text-transform: uppercase;
-    opacity: 0.6;
+    color: var(--accent2, var(--rose-light));
     white-space: nowrap;
   }
 
@@ -571,14 +549,13 @@
   #screen9  { background: radial-gradient(ellipse at 50% 45%, #0a1520 0%, #050c15 75%); --accent: #4a8ec8; --accent2: #80bae8; }
   #screen10 { background: radial-gradient(ellipse at 50% 45%, #1a0d0d 0%, #0f0808 75%); --accent: #c84a4a; --accent2: #e88080; }
   #screen11 { background: radial-gradient(ellipse at 50% 45%, #0d1a0d 0%, #060f06 75%); --accent: #6ab865; --accent2: #a0e09a; }
-
   #screen12 { background: radial-gradient(ellipse at 50% 45%, #0d1520 0%, #060a14 75%); --accent: #60aaee; --accent2: #a0ccf8; }
   #screen13 { background: radial-gradient(ellipse at 50% 45%, #1a1508 0%, #0f0c05 75%); --accent: #c8aa40; --accent2: #e8d080; }
   #screen14 { background: radial-gradient(ellipse at 50% 45%, #150a1a 0%, #0a0610 75%); --accent: #b060c8; --accent2: #d898e8; }
 
-  .fan-screen .fan-quote { color: var(--accent2); border-color: var(--accent); }
-  .fan-screen .fan-author { color: var(--accent2); }
-  .fan-screen .fan-author-line { background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: 0.5; }
+  .fan-screen .fan-quote        { color: var(--accent2); border-color: var(--accent); }
+  .fan-screen .fan-quote-divider{ background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: 0.6; }
+  .fan-screen .fan-author       { color: var(--accent2); }
 </style>
 </head>
 <body>
@@ -597,7 +574,7 @@
   </button>
 </div>
 
-<!-- SCREEN 2 -->
+<!-- SCREEN 2 — FIX: scrollable, image cropped to show face -->
 <div class="screen" id="screen2">
   <div class="photo-frame">
     <div class="photo-glow"></div>
@@ -626,7 +603,7 @@
   </button>
 </div>
 
-<!-- SCREEN 4 -->
+<!-- SCREEN 4 — Harry Potter: quote now uses unified fan-quote style -->
 <div class="screen" id="screen4">
   <div class="hp-frame">
     <div class="hp-stars"></div>
@@ -637,13 +614,17 @@
       <div style="position:absolute;bottom:0;left:0;right:0;text-align:center;padding:1.2rem 0 0.5rem;background:linear-gradient(transparent,rgba(0,0,0,0.7));color:rgba(255,255,255,0.4);font-family:'Raleway',sans-serif;font-size:0.52rem;letter-spacing:2px;text-transform:uppercase;pointer-events:none;">▶ toque para continuar</div>
     </div>
   </div>
+
   <div class="hp-quote-wrap">
-    <div class="hp-quote-open">❝</div>
-    <p class="hp-quote-text">Você para mim é como Hermione é para Rony —<br><em>"Você é honestamente a pessoa mais maravilhosa que eu já conheci."</em></p>
-    <div class="hp-author">
-      <div class="hp-author-line"></div>
+    <p class="fan-tagline" style="color:var(--cream);opacity:0.85;">Você para mim é como Hermione é para Rony</p>
+    <div class="fan-quote-divider" style="color:rgba(180,140,255,0.6);"></div>
+    <blockquote class="fan-quote" style="color:#c8b4f8;border-color:rgba(140,80,240,0.6);background:rgba(140,80,240,0.05);">
+      "Você é honestamente a pessoa mais maravilhosa que eu já conheci."
+    </blockquote>
+    <div class="fan-author" style="color:#c8b4f8;">
+      <div class="fan-author-line" style="background:linear-gradient(90deg,transparent,rgba(140,80,240,0.6),transparent);opacity:0.6;max-width:60px;"></div>
       <span>Rony Weasley sobre Hermione</span>
-      <div class="hp-author-line"></div>
+      <div class="fan-author-line" style="background:linear-gradient(90deg,transparent,rgba(140,80,240,0.6),transparent);opacity:0.6;max-width:60px;"></div>
     </div>
   </div>
 </div>
@@ -656,12 +637,13 @@
   </div>
   <div class="fan-quote-wrap">
     <p class="fan-tagline">Quando olho nos seus olhos me sinto como Peter Parker</p>
+    <div class="fan-quote-divider"></div>
     <blockquote class="fan-quote">"Quando você olha nos olhos dela, e ela olha pra você, tudo parece fora do normal. Porque você se sente mais forte, e mais fraco ao mesmo tempo."</blockquote>
   </div>
   <div class="fan-author">
-    <div class="fan-author-line"></div>
-    <span>Peter para Mary Jane</span>
-    <div class="fan-author-line"></div>
+    <div class="fan-author-line" style="background:#e8736a; box-shadow:0 0 6px #e8736a;"></div>
+    <span style="color:#f0a090;">Peter para Mary Jane</span>
+    <div class="fan-author-line" style="background:#e8736a; box-shadow:0 0 6px #e8736a;"></div>
   </div>
 </div>
 
@@ -673,12 +655,13 @@
   </div>
   <div class="fan-quote-wrap">
     <p class="fan-tagline">Para mim, você é como Damon é para Elena</p>
+    <div class="fan-quote-divider"></div>
     <blockquote class="fan-quote">"Quero agradecer por me dar tudo o que eu sempre quis. Um amor que me consumiu, paixão, aventura... Não há mais nada que eu pudesse pedir, exceto que durasse para sempre."</blockquote>
   </div>
   <div class="fan-author">
-    <div class="fan-author-line"></div>
-    <span>Elena Gilbert para Damon Salvatore</span>
-    <div class="fan-author-line"></div>
+    <div class="fan-author-line" style="background:#9b6ec8; box-shadow:0 0 6px #9b6ec8;"></div>
+    <span style="color:#c4a0e8;">Elena Gilbert para Damon Salvatore</span>
+    <div class="fan-author-line" style="background:#9b6ec8; box-shadow:0 0 6px #9b6ec8;"></div>
   </div>
 </div>
 
@@ -690,12 +673,13 @@
   </div>
   <div class="fan-quote-wrap">
     <p class="fan-tagline">Para mim você tem sido como Caroline foi para Stefan</p>
+    <div class="fan-quote-divider"></div>
     <blockquote class="fan-quote">"Você tem sido minha amiga, minha consciência, minha conselheira, minha luz do sol quando tudo o que eu via era escuridão. Você me salvou do desespero. Você me disse uma vez que eu me apaixonaria sem nem perceber, e foi exatamente o que aconteceu."</blockquote>
   </div>
   <div class="fan-author">
-    <div class="fan-author-line"></div>
-    <span>Stefan Salvatore para Caroline Forbes</span>
-    <div class="fan-author-line"></div>
+    <div class="fan-author-line" style="background:#5aab85; box-shadow:0 0 6px #5aab85;"></div>
+    <span style="color:#90ddb8;">Stefan Salvatore para Caroline Forbes</span>
+    <div class="fan-author-line" style="background:#5aab85; box-shadow:0 0 6px #5aab85;"></div>
   </div>
 </div>
 
@@ -707,12 +691,13 @@
   </div>
   <div class="fan-quote-wrap">
     <p class="fan-tagline">Para mim, você tem a mesma importância que o Naruto tem para Hinata</p>
+    <div class="fan-quote-divider"></div>
     <blockquote class="fan-quote">"Eu costumava sempre chorar e desistir... Mas você me mostrou o caminho certo. Eu queria caminhar ao seu lado... Eu queria estar com você. Você me mudou! O seu sorriso foi o que me salvou! É por isso que não tenho medo de morrer para proteger você! Porque... eu te amo."</blockquote>
   </div>
   <div class="fan-author">
-    <div class="fan-author-line"></div>
-    <span>Hinata para Naruto</span>
-    <div class="fan-author-line"></div>
+    <div class="fan-author-line" style="background:#d4874a; box-shadow:0 0 6px #d4874a;"></div>
+    <span style="color:#f0b07a;">Hinata para Naruto</span>
+    <div class="fan-author-line" style="background:#d4874a; box-shadow:0 0 6px #d4874a;"></div>
   </div>
 </div>
 
@@ -724,12 +709,13 @@
   </div>
   <div class="fan-quote-wrap">
     <p class="fan-tagline">Para mim, o nosso vínculo é como o de Tanjiro e Nezuko</p>
+    <div class="fan-quote-divider"></div>
     <blockquote class="fan-quote">"O vínculo entre mim e a Nezuko não pode ser cortado por ninguém!"</blockquote>
   </div>
   <div class="fan-author">
-    <div class="fan-author-line"></div>
-    <span>Tanjiro sobre Nezuko</span>
-    <div class="fan-author-line"></div>
+    <div class="fan-author-line" style="background:#4a8ec8; box-shadow:0 0 6px #4a8ec8;"></div>
+    <span style="color:#80bae8;">Tanjiro sobre Nezuko</span>
+    <div class="fan-author-line" style="background:#4a8ec8; box-shadow:0 0 6px #4a8ec8;"></div>
   </div>
 </div>
 
@@ -741,12 +727,13 @@
   </div>
   <div class="fan-quote-wrap">
     <p class="fan-tagline">Eu te amo desde a primeira vez em que te vi, e eu te amo como o Stiles amou a Lydia</p>
+    <div class="fan-quote-divider"></div>
     <blockquote class="fan-quote">"Eu te amo. Eu te amo desde a terceira série. Desde o primeiro momento em que te vi, e não vou parar de te amar."</blockquote>
   </div>
   <div class="fan-author">
-    <div class="fan-author-line"></div>
-    <span>Stiles para Lydia</span>
-    <div class="fan-author-line"></div>
+    <div class="fan-author-line" style="background:#c84a4a; box-shadow:0 0 6px #c84a4a;"></div>
+    <span style="color:#e88080;">Stiles para Lydia</span>
+    <div class="fan-author-line" style="background:#c84a4a; box-shadow:0 0 6px #c84a4a;"></div>
   </div>
 </div>
 
@@ -758,12 +745,13 @@
   </div>
   <div class="fan-quote-wrap">
     <p class="fan-tagline">Eu pensei que era inteligente, mas quando te vi no dia do chaverio me senti como Pernalonga</p>
+    <div class="fan-quote-divider"></div>
     <blockquote class="fan-quote">"Eu achei que a coisa mais inteligente que eu já tinha feito era dobrar à esquerda em Albuquerque... até o dia em que eu te conheci."</blockquote>
   </div>
   <div class="fan-author">
-    <div class="fan-author-line"></div>
-    <span>Pernalonga para Lola Bunny</span>
-    <div class="fan-author-line"></div>
+    <div class="fan-author-line" style="background:#6ab865; box-shadow:0 0 6px #6ab865;"></div>
+    <span style="color:#a0e09a;">Pernalonga para Lola Bunny</span>
+    <div class="fan-author-line" style="background:#6ab865; box-shadow:0 0 6px #6ab865;"></div>
   </div>
 </div>
 
@@ -775,12 +763,13 @@
   </div>
   <div class="fan-quote-wrap">
     <p class="fan-tagline">Eu te amo não pelo que você é por fora, mas pelo que você é por dentro, assim como o Gumball</p>
+    <div class="fan-quote-divider"></div>
     <blockquote class="fan-quote">"Eu não me importo com o que você tem por fora. Eu amo o que você é por dentro, mesmo que você seja um monstro mutante de formato mutável."</blockquote>
   </div>
   <div class="fan-author">
-    <div class="fan-author-line"></div>
-    <span>Gumball para Penny</span>
-    <div class="fan-author-line"></div>
+    <div class="fan-author-line" style="background:#60aaee; box-shadow:0 0 6px #60aaee;"></div>
+    <span style="color:#a0ccf8;">Gumball para Penny</span>
+    <div class="fan-author-line" style="background:#60aaee; box-shadow:0 0 6px #60aaee;"></div>
   </div>
 </div>
 
@@ -791,13 +780,14 @@
     <div class="fan-border" style="border-color:rgba(192,110,212,0.25);"></div>
   </div>
   <div class="fan-quote-wrap">
-    <p class="fan-tagline" style="color:var(--cream);">Você se tornou o meu amor da casa ao lado, assim como em Através da minha janela</p>
-    <blockquote class="fan-quote" style="color:#e0a8f0;border-color:#c06ed4;">"Você não é apenas a garota da casa ao lado. Você é a pessoa que virou o meu mundo inteiro de cabeça para baixo."</blockquote>
+    <p class="fan-tagline">Você se tornou o meu amor da casa ao lado, assim como em Através da minha janela</p>
+    <div class="fan-quote-divider"></div>
+    <blockquote class="fan-quote">"Você não é apenas a garota da casa ao lado. Você é a pessoa que virou o meu mundo inteiro de cabeça para baixo."</blockquote>
   </div>
-  <div class="fan-author" style="color:#e0a8f0;">
-    <div class="fan-author-line" style="background:linear-gradient(90deg,transparent,#c06ed4,transparent);opacity:0.5;"></div>
-    <span>Raquel para Ares</span>
-    <div class="fan-author-line" style="background:linear-gradient(90deg,transparent,#c06ed4,transparent);opacity:0.5;"></div>
+  <div class="fan-author">
+    <div class="fan-author-line" style="background:#c06ed4; box-shadow:0 0 6px #c06ed4;"></div>
+    <span style="color:#e0a8f0;">Raquel para Ares</span>
+    <div class="fan-author-line" style="background:#c06ed4; box-shadow:0 0 6px #c06ed4;"></div>
   </div>
 </div>
 
@@ -805,6 +795,7 @@
 <div class="screen" id="screen14">
 
   <style>
+    /* override screen14 id since we repurposed it for the envelope/letter */
     #screen14 {
       background: radial-gradient(ellipse at 40% 30%, #200a14 0%, #100610 50%, #070308 100%);
       overflow: hidden;
@@ -830,16 +821,8 @@
       88%  { opacity: 0.25; }
       100% { transform: translateY(115vh) rotate(15deg) scale(0.9); opacity: 0; }
     }
-    /* inside letter overlay the rain stays BEHIND the paper */
-    #letter14 .rain-drop {
-      z-index: 301;
-    }
-    #letter14-paper {
-      position: relative;
-      z-index: 302;
-    }
-      100% { transform: translateY(115vh) rotate(25deg) scale(1.1); opacity: 0; }
-    }
+    #letter14 .rain-drop { z-index: 301; }
+    #letter14-paper { position: relative; z-index: 302; }
 
     /* ── ENVELOPE SCENE ── */
     #env14-scene {
@@ -880,7 +863,6 @@
       animation: fade-slide-up 1s ease forwards 1.3s;
     }
 
-    /* envelope box */
     #env14-box {
       width: min(280px, 80vw);
       cursor: pointer;
@@ -906,7 +888,6 @@
     }
     #env14-hint.gone { opacity: 0; transition: opacity 0.3s; }
 
-    /* flap animation */
     #env14-flap {
       transform-origin: 50% 0%;
       transform-box: fill-box;
@@ -919,7 +900,6 @@
       to   { transform: rotateX(-180deg); }
     }
 
-    /* letter peek */
     #env14-peek {
       position: absolute;
       bottom: 28%;
@@ -964,7 +944,6 @@
       pointer-events: all;
     }
 
-    /* rain inside letter overlay stays BEHIND the paper */
     #letter14 .rain-drop { z-index: 301; pointer-events: none; }
     #letter14-paper      { position: relative; z-index: 302; }
 
@@ -1089,23 +1068,17 @@
             <stop offset="100%" stop-color="#dfc5a5"/>
           </linearGradient>
         </defs>
-        <!-- body -->
         <rect x="0" y="20" width="300" height="180" rx="5" fill="url(#eg14b)" stroke="rgba(212,168,83,.6)" stroke-width="1.3"/>
-        <!-- bottom triangle -->
         <polygon points="0,200 150,115 300,200" fill="#e8d4bc" stroke="rgba(212,168,83,.45)" stroke-width="0.8"/>
-        <!-- side folds shadows -->
         <polygon points="0,20 150,115 0,200"   fill="rgba(0,0,0,.08)"/>
         <polygon points="300,20 150,115 300,200" fill="rgba(0,0,0,.06)"/>
-        <!-- flap -->
         <g id="env14-flap">
           <polygon points="0,21 300,21 150,112" fill="url(#eg14f)" stroke="rgba(212,168,83,.6)" stroke-width="1"/>
           <line x1="0"   y1="21" x2="150" y2="112" stroke="rgba(212,168,83,.25)" stroke-width="0.6"/>
           <line x1="300" y1="21" x2="150" y2="112" stroke="rgba(212,168,83,.25)" stroke-width="0.6"/>
         </g>
-        <!-- wax seal -->
         <circle cx="150" cy="112" r="20" fill="#c8647a" stroke="#d4a853" stroke-width="1.8"/>
         <text x="150" y="118" text-anchor="middle" font-size="15" fill="#fce8ef" font-family="serif">❤</text>
-        <!-- top accent line -->
         <line x1="10" y1="29" x2="290" y2="29" stroke="rgba(212,168,83,.2)" stroke-width="0.8"/>
       </svg>
     </div>
@@ -1136,7 +1109,6 @@
       </div>
     </div>
     <div style="height:2rem;flex-shrink:0;"></div>
-    <!-- arrow to album -->
     <button class="arrow-btn" onclick="goTo(15)" aria-label="Próxima tela" style="margin:0 auto 2rem;opacity:1;animation:none;border-color:rgba(200,100,122,0.5);background:rgba(200,100,122,0.08);flex-shrink:0;position:relative;z-index:303;">
       <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#c8647a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
@@ -1156,8 +1128,6 @@
       align-items: center;
       gap: 0;
     }
-
-    /* notebook rings top */
     .album-rings {
       display: flex;
       gap: 18px;
@@ -1173,8 +1143,6 @@
       background: radial-gradient(circle at 35% 35%, #4a3040, #1a0c14);
       box-shadow: 0 2px 6px rgba(0,0,0,0.7), inset 0 1px 2px rgba(255,255,255,0.08);
     }
-
-    /* album cover feel */
     .album-wrap {
       width: min(360px, 95vw);
       background: linear-gradient(160deg, #140a10 0%, #0e0509 100%);
@@ -1190,8 +1158,6 @@
       opacity: 0;
       position: relative;
     }
-
-    /* center title */
     .album-title-wrap {
       text-align: center;
       margin-bottom: 1.2rem;
@@ -1218,14 +1184,11 @@
       background: linear-gradient(90deg, transparent, var(--gold), transparent);
       margin: 0.7rem auto 0;
     }
-
-    /* photo grid — polaroid style */
     .album-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 0.9rem;
     }
-
     .polaroid {
       background: #fdf6ee;
       border-radius: 2px;
@@ -1242,7 +1205,6 @@
     .polaroid:nth-child(5) { transform: rotate(3deg);    }
     .polaroid:nth-child(6) { transform: rotate(-2deg);   }
     .polaroid:active { transform: rotate(0deg) scale(1.04) !important; z-index: 10; }
-
     .polaroid img {
       width: 100%;
       aspect-ratio: 1/1;
@@ -1250,8 +1212,6 @@
       display: block;
       border-radius: 1px;
     }
-
-    /* tape strips */
     .polaroid::before {
       content: '';
       position: absolute;
@@ -1265,24 +1225,18 @@
       backdrop-filter: blur(2px);
     }
     .polaroid:nth-child(even)::before  { transform: translateX(-50%) rotate(2deg); }
-
-    /* washi tape color variants */
     .polaroid:nth-child(1)::before { background: rgba(200,100,122,0.3); border-color: rgba(200,100,122,0.2); }
     .polaroid:nth-child(2)::before { background: rgba(212,168,83,0.35); border-color: rgba(212,168,83,0.25); }
     .polaroid:nth-child(3)::before { background: rgba(180,140,255,0.3); border-color: rgba(180,140,255,0.2); }
     .polaroid:nth-child(4)::before { background: rgba(200,100,122,0.3); border-color: rgba(200,100,122,0.2); }
     .polaroid:nth-child(5)::before { background: rgba(212,168,83,0.35); border-color: rgba(212,168,83,0.25); }
     .polaroid:nth-child(6)::before { background: rgba(90,171,133,0.3);  border-color: rgba(90,171,133,0.2);  }
-
-    /* sticker decorations on album */
     .album-sticker {
       position: absolute;
       font-size: 1.1rem;
       pointer-events: none;
       user-select: none;
     }
-
-    /* bottom signature */
     .album-sig {
       text-align: center;
       margin-top: 1.4rem;
@@ -1295,7 +1249,6 @@
     }
   </style>
 
-  <!-- rings -->
   <div class="album-rings">
     <div class="album-ring"></div>
     <div class="album-ring"></div>
@@ -1306,23 +1259,18 @@
     <div class="album-ring"></div>
   </div>
 
-  <!-- album body -->
   <div class="album-wrap">
-
-    <!-- stickers decorativos -->
     <div class="album-sticker" style="top:0.6rem;right:1rem;transform:rotate(15deg);">🌹</div>
     <div class="album-sticker" style="top:0.6rem;left:0.8rem;transform:rotate(-10deg);">✨</div>
     <div class="album-sticker" style="bottom:1rem;right:0.8rem;transform:rotate(8deg);">💕</div>
     <div class="album-sticker" style="bottom:1rem;left:0.7rem;transform:rotate(-12deg);">🌸</div>
 
-    <!-- título central -->
     <div class="album-title-wrap">
       <span class="album-title-main">Feliz aniversário</span>
       <span class="album-title-sub">Meu amor! 🤍</span>
       <div class="album-title-divider"></div>
     </div>
 
-    <!-- fotos -->
     <div class="album-grid">
       <div class="polaroid">
         <img src="https://i.ibb.co/hJ9pmWFB/Whats-App-Image-2026-05-16-at-19-32-51-2.jpg" alt="foto 1">
@@ -1414,7 +1362,6 @@
   }
   for (let i = 0; i < 40; i++) createParticle();
 
-  // petals
   function createPetal() {
     const el = document.createElement('div');
     el.className = 'petal';
@@ -1446,6 +1393,34 @@
   }
 
   // ── SCREEN NAVIGATION ──
+  // Add CSS to ensure animated elements become visible
+  const styleEl = document.createElement('style');
+  styleEl.textContent = `
+    .screen.active .fan-img-wrap,
+    .screen.active .fan-quote-wrap,
+    .screen.active .fan-author,
+    .screen.active .photo-frame,
+    .screen.active .calendar-wrap,
+    .screen.active .s2-caption,
+    .screen.active .s1-ornament,
+    .screen.active .s1-title,
+    .screen.active .s1-divider,
+    .screen.active .s1-sub,
+    .screen.active .s3-quote-mark,
+    .screen.active .s3-text,
+    .screen.active .hp-frame,
+    .screen.active .hp-quote-wrap,
+    .screen.active .hp-author,
+    .screen.active .arrow-btn,
+    .screen.active .album-rings,
+    .screen.active .album-wrap,
+    .screen.active .album-sig,
+    .screen.active #env14-scene {
+      animation-play-state: running;
+    }
+  `;
+  document.head.appendChild(styleEl);
+
   let current = 1;
   function goTo(n) {
     const from = document.getElementById('screen' + current);
@@ -1456,13 +1431,17 @@
     setTimeout(() => { from.classList.remove('exit'); }, 900);
     to.classList.add('active');
     current = n;
-    // reset animations
-    to.querySelectorAll('[style*="animation"]').forEach(el => {
-      el.style.animation = 'none';
-      void el.offsetWidth;
-      el.style.animation = '';
+    // Force all CSS-animated children to be visible immediately
+    const animated = to.querySelectorAll(
+      '.fan-img-wrap, .fan-quote-wrap, .fan-author, .photo-frame, .calendar-wrap, ' +
+      '.s2-caption, .hp-frame, .hp-quote-wrap, .hp-author, .arrow-btn, ' +
+      '.s1-ornament, .s1-title, .s1-divider, .s1-sub, .s3-quote-mark, .s3-text, ' +
+      '.album-rings, .album-wrap, .album-sig, #env14-scene'
+    );
+    animated.forEach(el => {
+      el.style.opacity = '1';
+      el.style.transform = 'translateY(0)';
     });
-    // spawn hearts on screens 2+
     if (n >= 2) {
       let count = 0;
       const iv = setInterval(() => {
@@ -1470,7 +1449,6 @@
         if (++count >= 5) clearInterval(iv);
       }, 600);
     }
-    // start rose rain on final screen
     if (n === 14) {
       setTimeout(() => startRain(to), 800);
     }
